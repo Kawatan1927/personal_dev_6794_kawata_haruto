@@ -39,26 +39,11 @@ public class OrderController {
 	@Autowired
 	Account account;
 	
-	//注文内容確認とお客様情報入力画面を表示
+	//注文内容確認とお客様情報確認画面を表示
 	@GetMapping("/order")
 	public String index() {
 		return "customerForm";
 	}
-	
-//	//注文内容およびお客様情報内容の確認画面を表示
-//	@PostMapping("/order/confirm")
-//	public String confirm(
-//			@RequestParam("name") String name,
-//			@RequestParam("address") String address,
-//			@RequestParam("tel") String tel,
-//			@RequestParam("email") String email,
-//			Model model) {
-//		//お客様情報をまとめる
-//		Customer customer = new Customer(name, address, tel, email);
-//		model.addAttribute("customer", customer);
-//		
-//		return "orderConfirm";
-//	}
 	
 	//注文する
 	@PostMapping("/order")
@@ -70,9 +55,7 @@ public class OrderController {
 			@RequestParam("email") String email,
 			@RequestParam("point") Integer point,
 			Model model) {
-		//1.お客様情報をDBに格納する
-		
-//		Customer customer = new Customer(id, name, address, tel, email, point);
+		//1.ポイント獲得情報をDBに格納する
 		Customer customer = customerRepository.findById(id).get();
 		customer.setPoint(customer.getPoint() + point);
 		account.setUserPoint(account.getUserPoint() + point);
@@ -98,7 +81,7 @@ public class OrderController {
 		//セッションスコープのカート情報をクリアする
 		cart.clear();
 		
-		//画面返却用番号を設定する
+		//画面返却用番号・付与ポイント数を設定する
 		model.addAttribute("orderNumber", order.getId());
 		model.addAttribute("getPoints", customer.getPoint());
 		

@@ -17,15 +17,15 @@ import lombok.NoArgsConstructor;
 public class OrderDetail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer id; // 注文明細ID
 	
 	@Column(name = "order_id")
-	private Integer orderId;
-	
+	private Integer orderId; // 注文ID
+	 
 	@Column(name = "item_id")
-	private Integer itemId;
+	private Integer itemId; // 商品ID
 	
-	private Integer quantity;
+	private Integer quantity; // 数量
 	
 	public OrderDetail(Integer orderId, Integer itemId, Integer quantity) {
 		this.orderId = orderId;

@@ -51,15 +51,17 @@ public class AccountController {
 	        @RequestParam(name = "password",  defaultValue = "") String userPassword,
 			Model model) {
 		List<Customer> customerList = customerRepository.findByEmailAndPassword(userEmail, userPassword);
-		//
+		// メールアドレスが空の場合にエラーとする
 		if(userEmail == null || userEmail.length() == 0) {
 			model.addAttribute("message", "メールアドレスを入力してください");
 			return "login";
+		// パスワードが空の場合にエラーとする
 		}if(userPassword == null || userPassword.length() == 0) {
 			model.addAttribute("message", "パスワードを入力してください");
 			return "login";
 		}
 		if(customerList.size() == 0 ) {
+			// 存在しなかった場合
 			model.addAttribute("message", "メールアドレスとパスワードが一致しませんでした");
 			return "login";
 		}
@@ -69,7 +71,7 @@ public class AccountController {
 		String userTel = customerList.get(0).getTel();
 		Integer userPoint = customerList.get(0).getPoint();
 		
-		//セッション管理されたアカウント情報に名前をセット		
+		// セッション管理されたアカウント情報に全てのアカウントをセット
 		account.setUserId(userId);
 		account.setUserName(userName);
 		account.setUserAddress(userAddress);
@@ -104,6 +106,7 @@ public class AccountController {
 		model.addAttribute("email", email);
 		model.addAttribute("password", password);
 		
+		// エラーチェック
 		List<String> errorList = new ArrayList<String>();
 		List<Customer> customerList = customerRepository.findByEmail(email);
 
@@ -119,13 +122,16 @@ public class AccountController {
 		if (email.length() == 0) {
 			errorList.add("メールアドレスは必須です");
 		}
+		// メールアドレス存在チェック
 		if(customerList.size() != 0 ) {
+			// 登録済みのメールアドレスが存在した場合
 			errorList.add("登録済みのメールアドレスです");
 		}
 		if (password.length() == 0) {
 			errorList.add("パスワードは必須です");
 		}
 		
+		// エラー発生時はユーザー登録画面に戻す
 		if (errorList.size() > 0) {
 			model.addAttribute("errorList", errorList);
 			Customer customer = new Customer(name, address, tel, email, password);

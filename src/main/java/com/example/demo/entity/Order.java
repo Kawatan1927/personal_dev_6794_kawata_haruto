@@ -20,16 +20,16 @@ import lombok.NoArgsConstructor;
 public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer id; // 注文ID
 	
 	@Column(name = "customer_id")
-	private Integer customerId;
+	private Integer customerId; // 顧客ID
 	
 	@Column(name = "ordered_on")
-	private LocalDate orderedOn;
+	private LocalDate orderedOn; // 注文日
 	
 	@Column(name = "total_price")
-	private Integer totalPrice;
+	private Integer totalPrice; // 合計金額
 	
 	public Order(Integer customerId, LocalDate orderedOn, Integer totalPrice) {
 		this.customerId = customerId;

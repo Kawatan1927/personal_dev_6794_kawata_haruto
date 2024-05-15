@@ -17,6 +17,7 @@ public class CheckLoginAspect {
 	@Autowired
 	Account account;
 	
+	//Controllerクラスの全メソッド処理の前処理
 	@Before("execution(* com.example.demo.controller.*Controller.*(..))")
 	public void writelog(JoinPoint jp) {
 		if (account == null || account.getUserName() == null || account.getUserPassword().length() == 0) {
@@ -28,6 +29,7 @@ public class CheckLoginAspect {
 		System.out.println(jp.getSignature());
 	}
 	
+	//AccountControllerクラス以外のControllerクラスで未ログインの場合はログインページにリダイレクト
 	@Around("execution(* com.example.demo.controller.ItemController.*(..)) ||"
 			+ "execution(* com.example.demo.controller.CartController.*(..)) ||"
 			+ "execution(* com.example.demo.controller.OrderController.*(..))")

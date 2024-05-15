@@ -19,19 +19,19 @@ import lombok.Setter;
 public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer id; // 顧客ID
 	
-	private String name;
+	private String name; // 名前
 	
-	private String address;
+	private String address; // 住所
 	
-	private String tel;
+	private String tel; // 電話番号
 	
-	private String email;
+	private String email;  // メールアドレス
 	
-	private String password;
+	private String password; // パスワード
 	
-	private Integer point;
+	private Integer point; //ポイント
 	
 	public Customer(Integer id, String name, String address, String tel, String email, Integer point) {
 		this.name = name;
