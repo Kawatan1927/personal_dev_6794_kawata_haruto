@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>会員登録</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+	<header>
+		<h1>サンプルショッピング</h1>
+	</header>
+	<hr>
+	<main>
+	<h3>お客様情報</h3>
+	<form action="/add/confirm" method="post">
+		<ul th:if="${errorList}">
+		<li th:each="error:${errorList}" th:text="${error}" style="color: red;"></li>
+	    </ul>
+			<table>
+				<tr>
+					<th>お名前</th>
+					<td>
+						<input type="text" name="name" th:value= "${customer} != null ? ${customer.name} : null">
+					</td>
+				</tr>
+				<tr>
+					<th>住所</th>
+					<td >
+						<input type="text" name="address" th:value= "${customer} != null ? ${customer.address} : null" >
+					</td>
+				</tr>
+				<tr>
+					<th>電話番号</th>
+					<td >
+						<input type="text" name="tel" th:value= "${customer} != null ? ${customer.tel} : null" >
+					</td>
+				</tr>
+				<tr>
+					<th>e-mail</th>
+					<td >
+						<input type="text" name="email" th:value= "${customer} != null ? ${customer.email} : null">
+					</td>
+				</tr>
+				<tr>
+					<th>パスワード</th>
+					<td>
+						<input type="password" name="password" >
+					</td>
+				</tr>
+			</table>
+			<button>確認画面へ</button>
+		</form>
+	</main>
+	<hr>
+	<footer th:replace="footer"></footer>
+</body>
+</html>
