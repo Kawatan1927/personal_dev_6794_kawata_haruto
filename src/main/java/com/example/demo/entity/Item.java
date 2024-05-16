@@ -29,5 +29,6 @@ public class Item {
 	@Transient //永続化対象外
 	private Integer quantity; //数量
 	
+	
 
 }

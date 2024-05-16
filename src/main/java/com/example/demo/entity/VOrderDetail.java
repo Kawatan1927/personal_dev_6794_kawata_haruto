@@ -17,7 +17,9 @@ public class VOrderDetail {
 	//フィールド
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id; // 注文ID
+	private Integer id; //注文明細ID
+	@Column(name = "order_id")
+	private Integer orderId; //注文ID
 	@Column(name = "customer_id")
 	private Integer customerId; // 顧客ID
 	@Column(name = "ordered_on")

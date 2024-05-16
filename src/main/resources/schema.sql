@@ -52,7 +52,8 @@ CREATE TABLE order_details
 CREATE VIEW v_order_details AS
 (
 	SELECT
-		o.id,
+		od.id,
+		o.id AS order_id,
 		o.customer_id,
 		o.ordered_on,
 		od.item_id,

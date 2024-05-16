@@ -30,7 +30,7 @@
 			<tr th:each="item:${items}">
 				<td th:text="${item.id}"></td>
 				<td th:text="${item.name}"></td>
-				<td th:text="${item.price}"></td>
+				<td th:text="'\\' + ${#numbers.formatInteger(item.price, 3, 'COMMA')}"></td>
 				<td>
 					<form action="/cart/add" method="post">
 						<input type="hidden" name="itemId" th:value="${item.id}">

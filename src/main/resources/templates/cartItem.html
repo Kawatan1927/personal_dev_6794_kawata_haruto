@@ -10,9 +10,9 @@
 	<tr th:each="item:${@cart.itemList}">
 		<td th:text="${item.id}"></td>
 		<td th:text="${item.name}"></td>
-		<td th:text="${item.price}"></td>
+		<td th:text="'\\' + ${#numbers.formatInteger(item.price, 3, 'COMMA')}"></td>
 		<td th:text="${item.quantity}"></td>
-		<td th:text="${item.price * item.quantity}"></td>
+		<td th:text="'\\' + ${#numbers.formatInteger((item.price * item.quantity), 3, 'COMMA')}"></td>
 		<td>
 			<form action="/cart/delete" method="post">
 				<input type="hidden" name="itemId" th:value="${item.id}">
@@ -21,7 +21,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td align="right" colspan="5" th:text="'総計：' +${@cart.totalPrice} + '獲得予定ポイント：' + ${@cart.totalPoint} + 'ポイント'"></td>
+		<td align="right" colspan="5" th:text="'総計：\\' +${@cart.totalPrice} + '獲得予定ポイント：' + ${@cart.totalPoint} + 'ポイント'"></td>
 		<td></td>
 	</tr>
 </table>

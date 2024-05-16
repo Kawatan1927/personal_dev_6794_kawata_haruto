@@ -22,12 +22,13 @@ public class Cart {
 	}
 	
 	//合計金額取得用ゲッター
-	public int getTotalPrice() {
+	public Integer getTotalPrice() {
 		//合計金額
 		int total = 0;
 		for(Item item : itemList) {
 			total += item.getPrice() * item.getQuantity();
 		}
+		
 		return total;
 	}
 	

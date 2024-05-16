@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>注文履歴詳細</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+	<header th:replace="header"></header>
+	<hr>
+	<h1>注文履歴</h1>
+	<table>
+			<tr>
+				<th>注文日</th>
+				<th>商品名</th>
+				<th>価格</th>
+				<th>個数</th>
+				<th>小計</th>
+			</tr>
+			<tr th:each="od:${orderDetails}">
+				<td th:text="${od.orderedOn}"></td>
+				<td th:text="${od.name}"></td>
+				<td th:text="'\\' + ${#numbers.formatInteger(od.price, 3, 'COMMA')}"></td>
+				<td th:text="${od.quantity}"></td>
+				<td th:text="'\\' + ${#numbers.formatInteger((od.price * od.quantity), 3, 'COMMA')}"></td>
+			</tr>
+			<tr th:each="order:${orders}">
+				<td></td>
+				<td></td>
+				<td></td>
+				<th>合計</th>
+				<td  th:text="'\\' + ${#numbers.formatInteger(order.totalPrice, 3, 'COMMA')}"></td>
+			</tr>
+	</table>
+
+</body>
+</html>

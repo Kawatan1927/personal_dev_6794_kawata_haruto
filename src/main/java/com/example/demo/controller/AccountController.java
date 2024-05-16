@@ -7,13 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Customer;
+import com.example.demo.entity.Order;
 import com.example.demo.entity.VOrderDetail;
 import com.example.demo.model.Account;
 import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.OrderRepository;
 import com.example.demo.repository.VOrderDetailRepository;
 
 import jakarta.servlet.http.HttpSession;
@@ -26,6 +29,9 @@ public class AccountController {
 	
 	@Autowired
 	CustomerRepository customerRepository;
+	
+	@Autowired
+	OrderRepository orderRepository;
 	
 	@Autowired
 	VOrderDetailRepository vOrderDetailRepository;	
@@ -174,9 +180,23 @@ public class AccountController {
 	//注文履歴画面を表示
 	@GetMapping("/order-history")
 	public String orderHistory(Model model) {
+		List<Order> orderList = orderRepository.findAll();
+		model.addAttribute("orders",orderList);
 		List<VOrderDetail> orderDetailList = vOrderDetailRepository.findBycustomerId(account.getUserId());
 		model.addAttribute("orderDetails",orderDetailList);		
 		return "orderHistory";
+	}
+	
+	//注文履歴詳細画面を表示
+	@GetMapping("/order-history/{id}")
+	public String orderHistoryShow(
+			@PathVariable("id") Integer id,
+			Model model) {
+		Order orders = orderRepository.findById(id).get();
+		model.addAttribute("orders",orders);
+		List<VOrderDetail> orderDetailList = vOrderDetailRepository.findByOrderIdAndCustomerId(id, account.getUserId());
+		model.addAttribute("orderDetails",orderDetailList);		
+		return "orderHistoryDetail";
 	}
 	
 	//欲しいものリスト画面を表示
