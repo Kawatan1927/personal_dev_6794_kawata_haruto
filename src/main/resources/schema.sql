@@ -1,9 +1,9 @@
 -- 各種テーブル削除
 DROP TABLE IF EXISTS categories CASCADE;
-DROP TABLE IF EXISTS items;
+DROP TABLE IF EXISTS items CASCADE;
 DROP TABLE IF EXISTS customers;
-DROP TABLE IF EXISTS orders;
-DROP TABLE IF EXISTS order_details;
+DROP TABLE IF EXISTS orders CASCADE;
+DROP TABLE IF EXISTS order_details CASCADE;
 
 -- カテゴリーテーブル
 CREATE TABLE categories
@@ -47,3 +47,24 @@ CREATE TABLE order_details
    item_id INTEGER,
    quantity INTEGER
 );
+
+--注文履歴テーブルView
+CREATE VIEW v_order_details AS
+(
+	SELECT
+		o.id,
+		o.customer_id,
+		o.ordered_on,
+		od.item_id,
+		i.name,
+		i.price,
+		od.quantity,
+		o.total_price
+	FROM order_details od
+	JOIN  orders o
+	ON od.order_id = o.id
+	JOIN items i
+	ON od.item_id = i.id
+);
+		
+		

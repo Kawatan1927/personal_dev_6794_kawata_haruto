@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Customer;
+import com.example.demo.entity.VOrderDetail;
 import com.example.demo.model.Account;
 import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.VOrderDetailRepository;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -24,6 +26,9 @@ public class AccountController {
 	
 	@Autowired
 	CustomerRepository customerRepository;
+	
+	@Autowired
+	VOrderDetailRepository vOrderDetailRepository;	
 	
 	@Autowired
 	Account account;
@@ -168,7 +173,9 @@ public class AccountController {
 	
 	//注文履歴画面を表示
 	@GetMapping("/order-history")
-	public String orderHistory() {
+	public String orderHistory(Model model) {
+		List<VOrderDetail> orderDetailList = vOrderDetailRepository.findBycustomerId(account.getUserId());
+		model.addAttribute("orderDetails",orderDetailList);		
 		return "orderHistory";
 	}
 	

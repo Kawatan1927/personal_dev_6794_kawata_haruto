@@ -8,6 +8,23 @@
 <body>
 	<header th:replace="header"></header>
 	<hr>
+	<h1>注文履歴</h1>
+	<table>
+			<tr>
+				<th>注文日</th>
+				<th>商品名</th>
+				<th>価格</th>
+				<th>個数</th>
+				<th>合計金額</th>
+			</tr>
+			<tr th:each="od:${orderDetails}">
+				<td th:text="${od.orderedOn}"></td>
+				<td th:text="${od.name}"></td>
+				<td th:text="${od.price}"></td>
+				<td th:text="${od.quantity}"></td>
+				<td th:text="${od.totalPrice}"></td>
+			</tr>
+	</table>
 	<hr>
 	<footer th:replace="footer"></footer>
 </body>
