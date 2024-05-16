@@ -1,5 +1,5 @@
 <header>
 	<h1><a href="/items">サンプルショッピング</a></h1>
-	<span th:text="${@account.userName} + 'さんがログイン中/所持ポイント：' + ${@account.userPoint} + 'ポイント'"></span>
+	<a href="/youraccount" th:text="${@account.userName} + 'さんがログイン中/所持ポイント：' + ${@account.userPoint} + 'ポイント'"></a>
 	<a href="/logout">ログアウト</a>
 </header>

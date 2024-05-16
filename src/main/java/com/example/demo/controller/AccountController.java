@@ -160,5 +160,30 @@ public class AccountController {
 			return "login";
 		}
 	
+	//アカウントサービス画面を表示
+	@GetMapping("/youraccount")
+	public String mypage() {
+		return "accountDetail";
+	}
+	
+	//注文履歴画面を表示
+	@GetMapping("/order-history")
+	public String orderHistory() {
+		return "orderHistory";
+	}
+	
+	//欲しいものリスト画面を表示
+	@GetMapping("/wishlist")
+	public String wishList() {
+		return "wishList";
+	}
+	
+	//アカウント情報の変更画面を表示
+	@GetMapping("/account")
+	public String accountSetting() {
+		return "accountSetting";
+	}
+	
+	
 
 }
