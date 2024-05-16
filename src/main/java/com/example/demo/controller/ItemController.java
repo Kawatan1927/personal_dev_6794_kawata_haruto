@@ -27,16 +27,25 @@ public class ItemController {
 	public String index(
 			@RequestParam(value = "categoryId", defaultValue = "")
 			Integer categoryId,
+			@RequestParam(name = "keyword", defaultValue = "")
+			String keyword,
 			Model model) {
 		
 		//全カテゴリー一覧を取得
 		List<Category> categoryList = categoryRepository.findAll();
 		model.addAttribute("categories", categoryList);
 		
+		//検索キーワードを取得
+		model.addAttribute("keyword", keyword);
+		
 		//商品一覧情報の取得
 		List<Item> itemList = null;
 		if(categoryId == null) {
-			itemList = itemRepository.findAll();
+			if(!(keyword.equals(""))) {
+				itemList = itemRepository.findByNameLike("%"+keyword+"%");
+			}else {
+				itemList = itemRepository.findAll();
+			}
 		}else {
 			//itemsテーブルをカテゴリーIDを指定して一覧を取得
 			itemList = itemRepository.findByCategoryId(categoryId);
