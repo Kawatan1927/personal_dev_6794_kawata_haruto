@@ -24,6 +24,8 @@ public class Item {
 	
 	private String name; /*商品名*/
 	
+	private String detail; /*商品詳細*/
+	
 	private Integer price; //価格
 	
 	@Transient //永続化対象外
