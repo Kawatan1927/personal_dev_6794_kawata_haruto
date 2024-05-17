@@ -22,7 +22,7 @@ import lombok.Setter;
 public class Review {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id; //カテゴリーID
+	private Integer id; //レビューID
 	@Column(name = "item_id")
 	private Integer itemId; // 商品ID
 	@Column(name = "customer_id")
@@ -32,10 +32,25 @@ public class Review {
 	@Column(name = "review_title")
 	private String reviewTitle; // レビュータイトル
 	@Column(name = "review_score")
-	private String reviewScore; // レビュータイトル
+	private Integer reviewScore; // レビュータイトル
 	@Column(name = "review_detail")
 	private String reviewDetail; // レビュー内容
 	private Integer good; // 高評価
 	private Integer bad; // 低評価
 
+	public Review(String reviewTitle, Integer reviewScore, String reviewDetail) {
+		this.reviewTitle = reviewTitle;
+		this.reviewScore = reviewScore;
+		this.reviewDetail = reviewDetail;
+		
+	}
+	public Review(Integer itemId, Integer customerId, LocalDate reviewedOn, String reviewTitle, Integer reviewScore, String reviewDetail) {
+		this.itemId = itemId;
+		this.customerId = customerId;
+		this.reviewedOn = reviewedOn;
+		this.reviewTitle = reviewTitle;
+		this.reviewScore = reviewScore;
+		this.reviewDetail = reviewDetail;
+		
+	}
 }

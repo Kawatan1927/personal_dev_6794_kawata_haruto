@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>商品レビュー投稿フォーム</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+	<header th:replace="header"></header>
+	<hr>
+	<h1>商品レビュー投稿フォーム</h1>
+	<form action="/order-history/{itemId}/addreview" method="post">
+		<ul th:if="${errorList}">
+		<li th:each="error:${errorList}" th:text="${error}" style="color: red;"></li>
+	    </ul>
+			<table>
+				<tr>
+					<th>レビュータイトル</th>
+					<td>
+						<input type="text" name="reviewTitle" th:value= "${review} != null ? ${review.reviewTitle} : null">
+					</td>
+					<th>評価</th>
+					<td>
+						<input type="number" min="0" max="5" name="reviewScore" th:value= "${review} != null ? ${review.reviewScore} : null">
+					</td>
+					<th>レビュー詳細</th>
+					<td>
+						<textarea name="reviewDetail" th:value= "${review} != null ? ${review.reviewDetail} : null"></textarea>
+					</td>
+				</tr>
+			</table>
+			<button>投稿</button>
+		</form>
+	</main>
+	<hr>
+	<footer th:replace="footer"></footer>
+
+</body>
+</html>

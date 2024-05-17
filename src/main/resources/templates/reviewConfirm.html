@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>会員登録情報確認</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+	<h3>下記の内容でレビュー投稿を行いますか？</h3>
+	<h3>商品レビュー</h3>
+	<form action="/entry" method="post">
+			<table>
+				<tr>
+					<th>レビュータイトル</th>
+					<td th:text="${reviewTitle}"></td>
+				</tr>
+				<tr>
+					<th>評価</th>
+					<td th:text="${reviewScore}"></td>
+				</tr>
+				<tr>
+					<th>レビュー詳細</th>
+					<td th:text="${reviewDetail}"></td>
+				</tr>
+			</table>
+			<input type="hidden" name="reviewTitle" th:value="${reviewTitle}">
+			<input type="hidden" name="reviewScore" th:value="${reviewScore}">
+			<input type="hidden" name="reviewDetail" th:value="${reviewDetail}">
+			<button>レビューを投稿</button>
+		</form>
+<footer th:replace="footer"></footer>
+</body>
+</html>
