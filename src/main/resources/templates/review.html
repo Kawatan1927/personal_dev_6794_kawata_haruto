@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>商品詳細</title>
+<title>カスタマーレビュー</title>
 <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
@@ -20,24 +20,26 @@
 		<a href="/cart" style="padding-left: 10px;">カートを見る</a>
 	</nav>
 	<main>
-		<h1 th:text="${item.name}"></h1>
-		
-		<p th:text="${item.detail}"></p>
-		
-		<h3  th:text="'\\' + ${#numbers.formatInteger(item.price, 3, 'COMMA')}"></h3>
-		
-		<p><a th:href="'/items/'+${item.id} + '/review'" style="padding-left: 10px;">カスタマレビューを確認</a></p>
-	<form action="/cart/add" method="post">
-			<input type="hidden" name="itemId" th:value="${item.id}">
-			<button>カートに追加</button>
-		</form>
-	<form action="/cart/add" method="post">
-			<input type="hidden" name="itemId" th:value="${item.id}">
-			<button>欲しいものリストに追加</button>
-		</form>
-	</main>
+		<table>
+			<tr>
+				<th>レビュー日</th>
+				<th>レビュータイトル</th>
+				<th>評価</th>
+				<th>レビュー詳細</th>
+				<th>高評価</th>
+				<th>低評価</th>
+			</tr>
+			<tr th:each="review:${reviews}">
+				<td th:text="${review.reviewedOn}"></td>
+				<td th:text="${review.reviewTitle}"></td>
+				<td th:text="${review.reviewScore}"></td>
+				<td th:text="${review.reviewDetail}"></td>
+				<td th:text="${review.good}"></td>
+				<td th:text="${review.bad}"></td>
+			</tr>
+		</table>
+	</main>		
 	<hr>
 	<footer th:replace="footer"></footer>
-
 </body>
 </html>

@@ -28,6 +28,8 @@ public class Account {
 	public String userTel;	
 	
 	public Integer userPoint;
+	
+	public Integer getPoint;
 
 	
 

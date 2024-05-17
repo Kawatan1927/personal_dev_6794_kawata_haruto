@@ -58,6 +58,7 @@ public class OrderController {
 		//1.ポイント獲得情報をDBに格納する
 		Customer customer = customerRepository.findById(id).get();
 		customer.setPoint(customer.getPoint() + point);
+		account.setGetPoint(point);
 		account.setUserPoint(account.getUserPoint() + point);
 		customerRepository.save(customer);
 		//2.注文情報をDBに格納する
@@ -83,7 +84,7 @@ public class OrderController {
 		
 		//画面返却用番号・付与ポイント数を設定する
 		model.addAttribute("orderNumber", order.getId());
-		model.addAttribute("getPoints", customer.getPoint());
+		model.addAttribute("getPoints", account.getGetPoint());
 		
 		
 		return "ordered";

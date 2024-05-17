@@ -78,6 +78,7 @@ CREATE TABLE reviews
 	customer_id INTEGER,
 	reviewed_on DATE,
 	review_title TEXT,	
+	review_score INTEGER,
 	review_detail TEXT,	
 	good INTEGER,	
 	bad INTEGER
