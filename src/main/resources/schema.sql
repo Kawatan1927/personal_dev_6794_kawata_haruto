@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS items CASCADE;
 DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS orders CASCADE;
 DROP TABLE IF EXISTS order_details CASCADE;
+DROP TABLE IF EXISTS reviews CASCADE;
 
 -- カテゴリーテーブル
 CREATE TABLE categories
@@ -17,6 +18,7 @@ CREATE TABLE items
    id SERIAL PRIMARY KEY,
    category_id INTEGER,
    name TEXT,
+   detail TEXT,
    price INTEGER
 );
 -- 顧客テーブル
@@ -67,5 +69,16 @@ CREATE VIEW v_order_details AS
 	JOIN items i
 	ON od.item_id = i.id
 );
-		
-		
+
+--カスタマーレビューテーブル
+CREATE TABLE reviews
+(
+	id SERIAL PRIMARY KEY,
+	item_id INTEGER,
+	customer_id INTEGER,
+	reviewed_on DATE,
+	review_title TEXT,	
+	review_detail TEXT,	
+	good INTEGER,	
+	bad INTEGER
+);	

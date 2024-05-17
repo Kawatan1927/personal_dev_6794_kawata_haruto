@@ -44,6 +44,7 @@ public class AccountController {
 	@GetMapping({"/", "/login", "/logout"})
 	public String index(
 			@RequestParam(name = "error", defaultValue = "")String error,
+			@RequestParam(name = "mode", defaultValue = "")String mode,			
 			Model model) {
 		//セッション情報をすべてクリアする
 		session.invalidate();
@@ -205,7 +206,7 @@ public class AccountController {
 		return "wishList";
 	}
 	
-	//アカウント情報の変更画面を表示
+	//アカウント情報の確認画面を表示
 	@GetMapping("/account")
 	public String accountSetting() {
 		return "accountSetting";
