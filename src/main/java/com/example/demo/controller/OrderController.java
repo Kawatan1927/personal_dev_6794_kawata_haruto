@@ -23,38 +23,34 @@ import com.example.demo.repository.OrderRepository;
 
 @Controller
 public class OrderController {
-	
+
 	@Autowired
 	Cart cart;
-	
+
 	@Autowired
 	CustomerRepository customerRepository;
-	
+
 	@Autowired
 	OrderRepository orderRepository;
-	
+
 	@Autowired
 	OrderDetailRepository orderDetailRepository;
-	
+
 	@Autowired
 	Account account;
-	
+
 	//注文内容確認とお客様情報確認画面を表示
 	@GetMapping("/order")
-	public String index() {
+	public String index(@RequestParam("usePoint") Integer usePoint, Model model) {
+		model.addAttribute("usePoint", usePoint);
 		return "customerForm";
 	}
-	
+
 	//注文する
 	@PostMapping("/order")
-	public String order(
-			@RequestParam("id") Integer id,
-			@RequestParam("name") String name,
-			@RequestParam("address") String address,
-			@RequestParam("tel") String tel,
-			@RequestParam("email") String email,
-			@RequestParam("point") Integer point,
-			Model model) {
+	public String order(@RequestParam("id") Integer id, @RequestParam("name") String name,
+			@RequestParam("address") String address, @RequestParam("tel") String tel,
+			@RequestParam("email") String email, @RequestParam("point") Integer point, Model model) {
 		//1.ポイント獲得情報をDBに格納する
 		Customer customer = customerRepository.findById(id).get();
 		customer.setPoint(customer.getPoint() + point);
@@ -62,33 +58,24 @@ public class OrderController {
 		account.setUserPoint(account.getUserPoint() + point);
 		customerRepository.save(customer);
 		//2.注文情報をDBに格納する
-		Order order = new Order(
-				customer.getId(),
-				LocalDate.now(),
-				cart.getTotalPrice());
+		Order order = new Order(customer.getId(), LocalDate.now(), cart.getTotalPrice());
 		orderRepository.save(order);
 		//3.注文詳細情報をDBに格納する
 		List<Item> itemList = cart.getItemList();
 		List<OrderDetail> orderDetails = new ArrayList<>();
-		for(Item item : itemList) {
-			orderDetails.add(
-					new OrderDetail(
-							order.getId(),
-							item.getId(),
-							item.getQuantity()));
+		for (Item item : itemList) {
+			orderDetails.add(new OrderDetail(order.getId(), item.getId(), item.getQuantity()));
 		}
 		orderDetailRepository.saveAll(orderDetails);
-		
+
 		//セッションスコープのカート情報をクリアする
 		cart.clear();
-		
+
 		//画面返却用番号・付与ポイント数を設定する
 		model.addAttribute("orderNumber", order.getId());
 		model.addAttribute("getPoints", account.getGetPoint());
-		
-		
+
 		return "ordered";
 	}
-	
 
 }

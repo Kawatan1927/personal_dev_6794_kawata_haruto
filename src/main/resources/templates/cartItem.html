@@ -22,6 +22,6 @@
 	</tr>
 	<tr>
 		<td align="right" colspan="5" th:text="'総計：\\' +${@cart.totalPrice} + '獲得予定ポイント：' + ${@cart.totalPoint} + 'ポイント'"></td>
-		<td></td>
+		<td th:if="${usePoint}" th:text="'利用予定ポイント：' + ${usePoint} + 'ポイント'"></td>
 	</tr>
 </table>

@@ -11,6 +11,8 @@
 		<main>
 			<span th:replace="cartItem"></span>
 			<form action="/order">
+				<p>利用するポイント</p>
+				<input type="number" name="usePoint" placeholder="0" min="0" th:max="${@account.userPoint}"><br>
 				<button>注文する</button>
 			</form>
 		</main>
