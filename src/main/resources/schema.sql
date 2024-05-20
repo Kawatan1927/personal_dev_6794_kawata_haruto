@@ -117,3 +117,11 @@ CREATE VIEW v_wishlists AS
 	ON w.item_id = i.id
 );
 	
+--タイムセールテーブル
+CREATE TABLE timesale (
+    id SERIAL PRIMARY KEY,
+    item_id INTEGER,
+    start_time TIMESTAMP,
+    end_time TIMESTAMP,
+    discount_price NUMERIC(10, 2),
+);
