@@ -14,7 +14,7 @@
 		<ul th:if="${errorList}">
 		<li th:each="error:${errorList}" th:text="${error}" style="color: red;"></li>
 	    </ul>
-	    	<p><img th:each="ii:${itemImages}" th:src="'/' + ${ii.image}"></p>
+	    	<p><img th:each="ii:${itemImages}" th:src="${ii.image}"></p>
 	    	<h3 th:each="od:${orderDetails}" th:text="${od.name}"></h3>
 	    	<p>評価</p>
 			<p><input type="number" min="0" max="5" name="reviewScore" th:value= "${review} != null ? ${review.reviewScore} : null"></p>

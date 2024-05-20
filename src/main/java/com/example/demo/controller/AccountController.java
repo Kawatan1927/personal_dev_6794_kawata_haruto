@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.entity.Customer;
 import com.example.demo.entity.Order;
 import com.example.demo.entity.VOrderDetail;
+import com.example.demo.entity.VWishList;
 import com.example.demo.model.Account;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.repository.VOrderDetailRepository;
+import com.example.demo.repository.VWishListRepository;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -35,6 +37,9 @@ public class AccountController {
 	
 	@Autowired
 	VOrderDetailRepository vOrderDetailRepository;	
+	
+	@Autowired
+	VWishListRepository vWishListRepository;
 	
 	@Autowired
 	Account account;
@@ -202,7 +207,9 @@ public class AccountController {
 	
 	//欲しいものリスト画面を表示
 	@GetMapping("/wishlist")
-	public String wishList() {
+	public String wishList(Model model) {
+		List<VWishList> wishListList =  vWishListRepository.findBycustomerId(account.getUserId());
+		model.addAttribute("wishListList",wishListList);				
 		return "wishList";
 	}
 	

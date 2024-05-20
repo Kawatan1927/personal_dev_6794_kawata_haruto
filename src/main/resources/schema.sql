@@ -2,10 +2,11 @@
 DROP TABLE IF EXISTS categories CASCADE;
 DROP TABLE IF EXISTS items CASCADE;
 DROP TABLE IF EXISTS item_images CASCADE;
-DROP TABLE IF EXISTS customers;
+DROP TABLE IF EXISTS customers CASCADE;;
 DROP TABLE IF EXISTS orders CASCADE;
 DROP TABLE IF EXISTS order_details CASCADE;
 DROP TABLE IF EXISTS reviews CASCADE;
+DROP TABLE IF EXISTS wishlists CASCADE;
 
 -- カテゴリーテーブル
 CREATE TABLE categories
@@ -93,3 +94,26 @@ CREATE TABLE reviews
 	good INTEGER,	
 	bad INTEGER
 );	
+
+--欲しいものリストテーブル
+CREATE TABLE wishlists
+(
+	id SERIAL PRIMARY KEY,
+	item_id INTEGER,
+	customer_id INTEGER
+);
+
+--欲しいものリストビューテーブル
+CREATE VIEW v_wishlists AS
+(
+	SELECT
+		w.id,
+		w.item_id,
+		w.customer_id,
+		i.name,
+		i.price
+	FROM wishlists w
+	JOIN items i
+	ON w.item_id = i.id
+);
+	
