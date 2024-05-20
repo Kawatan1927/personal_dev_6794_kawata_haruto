@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Item;
+import com.example.demo.entity.ItemImage;
 import com.example.demo.repository.CategoryRepository;
+import com.example.demo.repository.ItemImagesRepository;
 import com.example.demo.repository.ItemRepository;
 
 @Controller
@@ -22,6 +24,9 @@ public class ItemController {
 	
 	@Autowired
 	ItemRepository itemRepository;
+	
+	@Autowired
+	ItemImagesRepository itemImagesRepository;
 	
 	//商品一覧表示
 	@GetMapping("/items")
@@ -65,6 +70,13 @@ public class ItemController {
 		// 主キー検索
 		Item item = itemRepository.findById(id).get();
 		model.addAttribute("item", item);
+		ItemImage itemimage1 = itemImagesRepository.findByItemId(id).get(0);
+		model.addAttribute("itemimage1", itemimage1);
+		ItemImage itemimage2 = itemImagesRepository.findByItemId(id).get(1);
+		model.addAttribute("itemimage2", itemimage2);
+		ItemImage itemimage3 = itemImagesRepository.findByItemId(id).get(2);
+		model.addAttribute("itemimage3", itemimage3);
+		
 
 		return "itemDetail";
 	}

@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "itemImages")
+@Table(name = "item_images")
 @Getter
 @Setter
 public class ItemImage {
@@ -26,7 +26,7 @@ public class ItemImage {
 	private String image; /*商品画像*/
 	
 	@ManyToOne
-	@JoinColumn(name = "itemId", insertable = false, updatable = false)
+	@JoinColumn(name = "item_id", insertable = false, updatable = false)
 	private Item item;
 	
 	

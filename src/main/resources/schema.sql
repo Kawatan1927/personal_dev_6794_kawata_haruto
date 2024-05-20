@@ -1,6 +1,7 @@
 -- 各種テーブル削除
 DROP TABLE IF EXISTS categories CASCADE;
 DROP TABLE IF EXISTS items CASCADE;
+DROP TABLE IF EXISTS item_images CASCADE;
 DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS orders CASCADE;
 DROP TABLE IF EXISTS order_details CASCADE;
@@ -22,7 +23,7 @@ CREATE TABLE items
    price INTEGER
 );
 --商品画像テーブル
-CREATE TABLE itemImages
+CREATE TABLE item_images
 (
    id SERIAL PRIMARY KEY,
    item_id INTEGER,
@@ -87,6 +88,7 @@ CREATE TABLE reviews
 	reviewed_on DATE,
 	review_title TEXT,	
 	review_score INTEGER,
+	review_image TEXT,	
 	review_detail TEXT,	
 	good INTEGER,	
 	bad INTEGER

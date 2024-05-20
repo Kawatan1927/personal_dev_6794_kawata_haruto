@@ -59,3 +59,9 @@ button{
 button:hover{
 	background-color: #f1b2b2;
 }
+
+.scroll-img{
+	
+	border: 5px solid #f00;
+	width: 200px;
+}
