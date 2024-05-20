@@ -215,7 +215,29 @@ public class AccountController {
 	
 	//アカウント情報の確認画面を表示
 	@GetMapping("/account")
-	public String accountSetting() {
+	public String accountSetting(Model model) {
+		String name = account.getUserName();
+		String email = account.getUserEmail();
+		model.addAttribute("name",name);				
+		model.addAttribute("email",email);				
+		return "accountRelogin";
+	}
+	
+	@PostMapping("/account/setting")
+	public String relogin(
+		@RequestParam(name = "password",  defaultValue = "") String password,
+		Model model) {
+		List<Customer> customerList = customerRepository.findByEmailAndPassword(account.getUserEmail(), password);
+		if(password == null || password.length() == 0) {
+			model.addAttribute("message", "パスワードを入力してください");
+			return "accountRelogin";
+		}
+		if(customerList.size() == 0 ) {
+			// 存在しなかった場合
+			model.addAttribute("message", "メールアドレスとパスワードが一致しませんでした");
+			return "accountRelogin";
+		}
+		this.session.setAttribute("password", password);
 		return "accountSetting";
 	}
 	
