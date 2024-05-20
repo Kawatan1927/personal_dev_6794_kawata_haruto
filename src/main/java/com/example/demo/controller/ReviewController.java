@@ -12,11 +12,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.entity.ItemImage;
 import com.example.demo.entity.Order;
 import com.example.demo.entity.Review;
+import com.example.demo.entity.VOrderDetail;
 import com.example.demo.model.Account;
+import com.example.demo.repository.ItemImagesRepository;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.repository.ReviewRepository;
+import com.example.demo.repository.VOrderDetailRepository;
 
 @Controller
 public class ReviewController {
@@ -26,6 +30,12 @@ public class ReviewController {
 	
 	@Autowired
 	OrderRepository orderRepository;
+	
+	@Autowired
+	VOrderDetailRepository vOrderDetailRepository;
+	
+	@Autowired
+	ItemImagesRepository itemImagesRepository;
 	
 	@Autowired
 	Account account;
@@ -48,6 +58,10 @@ public class ReviewController {
 			@PathVariable("itemId") Integer id,
 			Model model) {
 		model.addAttribute("itemId",id);
+		List<VOrderDetail> orderDetailList = vOrderDetailRepository.findByOrderIdAndCustomerId(id, account.getUserId());
+		model.addAttribute("orderDetails",orderDetailList);	
+		List<ItemImage> itemImageList = itemImagesRepository.findByItemId(id);
+		model.addAttribute("itemImages", itemImageList);
 		return  "reviewForm";
 	}
 	
@@ -56,6 +70,7 @@ public class ReviewController {
 	public String save(
 			@PathVariable("itemId") Integer id,
 			@RequestParam(name = "reviewTitle" , defaultValue = "") String reviewTitle,
+			@RequestParam(name = "reviewImage" , defaultValue = "") String reviewImage,
 			@RequestParam(name = "reviewScore" , defaultValue = "") Integer reviewScore,
 			@RequestParam(name = "reviewDetail" , defaultValue = "") String reviewDetail,
 			Model model) {
@@ -78,14 +93,14 @@ public class ReviewController {
 		// エラー発生時はレビュー登録画面に戻す
 		if (errorList.size() > 0) {
 			model.addAttribute("errorList", errorList);
-			Review review = new Review(reviewTitle, reviewScore, reviewDetail);
+			Review review = new Review(reviewTitle, reviewScore, reviewImage, reviewDetail);
 			model.addAttribute("review",review);
 			return "accountForm";
 		}else {
 			Integer itemId =id;
 			Order order = orderRepository.findByCustomerId(itemId).get(0);
 			LocalDate reviewedOn = order.getOrderedOn();
-			Review review = new Review(itemId, account.getUserId(), reviewedOn, reviewTitle, reviewScore, reviewDetail);
+			Review review = new Review(itemId, account.getUserId(), reviewedOn, reviewTitle, reviewScore, reviewImage, reviewDetail);
 			reviewRepository.save(review);
 			return "accountConfirm";
 		}

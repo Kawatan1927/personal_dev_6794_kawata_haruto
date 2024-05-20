@@ -32,24 +32,28 @@ public class Review {
 	@Column(name = "review_title")
 	private String reviewTitle; // レビュータイトル
 	@Column(name = "review_score")
-	private Integer reviewScore; // レビュータイトル
+	private Integer reviewScore; // ★
+	@Column(name = "review_image")
+	private String reviewImage; // レビュー画像
 	@Column(name = "review_detail")
 	private String reviewDetail; // レビュー内容
 	private Integer good; // 高評価
 	private Integer bad; // 低評価
 
-	public Review(String reviewTitle, Integer reviewScore, String reviewDetail) {
+	public Review(String reviewTitle, Integer reviewScore, String reviewImage, String reviewDetail) {
 		this.reviewTitle = reviewTitle;
 		this.reviewScore = reviewScore;
+		this.reviewImage = reviewImage;
 		this.reviewDetail = reviewDetail;
 		
 	}
-	public Review(Integer itemId, Integer customerId, LocalDate reviewedOn, String reviewTitle, Integer reviewScore, String reviewDetail) {
+	public Review(Integer itemId, Integer customerId, LocalDate reviewedOn, String reviewTitle, Integer reviewScore, String reviewImage, String reviewDetail) {
 		this.itemId = itemId;
 		this.customerId = customerId;
 		this.reviewedOn = reviewedOn;
 		this.reviewTitle = reviewTitle;
 		this.reviewScore = reviewScore;
+		this.reviewImage = reviewImage;
 		this.reviewDetail = reviewDetail;
 		
 	}

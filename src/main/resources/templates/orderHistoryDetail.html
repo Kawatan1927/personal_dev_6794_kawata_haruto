@@ -32,6 +32,9 @@
 				<td  th:text="'\\' + ${#numbers.formatInteger(order.totalPrice, 3, 'COMMA')}"></td>
 			</tr>
 	</table>
+	<form th:each="o:${orders}" th:action="@{/order-history/{id}/addreview(id=${o.id})}" method="get">
+			<button>商品レビューを投稿</button>
+		</form>
 
 </body>
 </html>
