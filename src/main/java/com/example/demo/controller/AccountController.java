@@ -241,6 +241,19 @@ public class AccountController {
 		return "accountSetting";
 	}
 	
+	@PostMapping("/account/setting/confirm")
+	public String accountSettingConfirm(
+			@RequestParam(name = "name" , defaultValue = "") String name,
+			@RequestParam(name = "address" , defaultValue = "") String address,
+			@RequestParam(name = "tel" , defaultValue = "") String tel,
+			@RequestParam(name = "email",  defaultValue = "") String email,
+			@RequestParam(name = "password",  defaultValue = "") String password,
+			Model model) {
+		Customer customer = new Customer(name, address, tel, email, password, account.getPoint);
+		customerRepository.save(customer);
+		return "accountDetail";
+		
+	}
 	
 
 }
