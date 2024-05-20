@@ -12,6 +12,36 @@ INSERT INTO items(category_id, name, detail, price) VALUES(2, 'Space Wars 3', '�
 INSERT INTO items(category_id, name, detail, price) VALUES(3, 'パズルゲーム', '「パズルゲーム」は、脳を刺激し、楽しみながら知的な挑戦に取り組むことができるゲームです。このゲームは、ストレスを減らし、同時に脳の力を高めるのに最適な方法です。このゲームにはさまざまな種類のパズルが用意されています。クロスワード、数独、ジグソーパズル、論理パズルなど、さまざまなタイプのパズルが含まれており、あなたの興味や好みに合わせて選択できます。「パズルゲーム」は、幅広い年齢層のプレイヤーに向けて設計されています。子供から大人まで、誰でも楽しむことができます。また、難易度の設定も自由自在なので、初心者から上級者まで、あらゆるレベルのプレイヤーが楽しむことができます。さらに、このゲームはリラックス効果もあります。忙しい日常生活から離れて、脳をリフレッシュし、ストレスを解消するのに最適な方法です。「パズルゲーム」をプレイして、楽しさと知的な刺激を体験しましょう。新しい挑戦に取り組みながら、脳の力を高め、リラックスした時間を過ごしましょう！', 780);
 INSERT INTO items(category_id, name, detail, price) VALUES(3, 'Invader Fighter', '「Invader Fighter」は、宇宙を脅かす侵略者から地球を守る究極の挑戦です。このゲームは、エキサイティングなシューティングアクションと戦略的な要素が融合し、プレイヤーを魅了します。このゲームでは、プレイヤーは最新の宇宙戦闘機のパイロットとなり、侵略者の攻撃から地球を守る使命を担います。スリリングなドッグファイト、迫り来る敵艦隊との戦い、そして最後の瞬間の救援作戦など、さまざまなミッションがプレイヤーを待ち受けます。「Invader Fighter」は、圧倒的なグラフィックと臨場感あふれるサウンドで、プレイヤーを宇宙の戦場へと引き込みます。迫力のある爆発と緊迫感溢れる戦闘シーンが、プレイヤーの心を躍らせます。さらに、このゲームには多彩な武器やアップグレード、カスタマイズオプションが用意されており、プレイヤーの戦術的なセンスを試すことができます。「Invader Fighter」に挑戦して、地球を守る最後の希望となりましょう。無限の宇宙での戦いが、あなたを待っています！', 3400);
 INSERT INTO items(category_id, name, detail, price) VALUES(3, 'Play the BascketBall', '「Play the Basketball」は、バスケットボールの魅力を手軽に楽しむことができるゲームです。このゲームは、リアルなプレイ感とエキサイティングなアクションが特徴で、バスケットボールファンにとって理想的なエンターテインメント体験を提供します。このゲームでは、プレイヤーは自分のチームを率いて、コート上でのスリリングな対戦を楽しむことができます。スムーズな操作と直感的なコントロールで、ダンクやスリーポイントシュートを決め、相手チームに勝利をもたらしましょう。「Play the Basketball」は、リアルなグラフィックと臨場感あふれるサウンドで、プレイヤーをバスケットボールの世界に引き込みます。コート上での熱戦が繰り広げられる様子は、まるで本物の試合にいるかのような感覚を味わえます。さらに、このゲームにはさまざまなモードやチャレンジが用意されており、プレイヤーのバスケットボールスキルを試すことができます。シングルプレイヤーキャリアモードやマルチプレイヤーオンライン対戦モードなど、さまざまな選択肢があります。「Play the Basketball」でバスケットボールの興奮を体験し、コート上での勝利を目指しましょう。仲間と一緒にプレイして、バスケットボールの魅力に浸りましょう！', 2200);
+--商品画像テーブルデータ
+INSERT INTO itemImages(item_id, image) VALUES(1,'images/item1-1.png');
+INSERT INTO itemImages(item_id, image) VALUES(1,'images/item1-2.png');
+INSERT INTO itemImages(item_id, image) VALUES(1,'images/item1-3.png');
+INSERT INTO itemImages(item_id, image) VALUES(2,'images/item2-1.png');
+INSERT INTO itemImages(item_id, image) VALUES(2,'images/item2-2.png');
+INSERT INTO itemImages(item_id, image) VALUES(2,'images/item2-3.png');
+INSERT INTO itemImages(item_id, image) VALUES(3,'images/item3-1.png');
+INSERT INTO itemImages(item_id, image) VALUES(3,'images/item3-2.png');
+INSERT INTO itemImages(item_id, image) VALUES(3,'images/item3-3.png');
+INSERT INTO itemImages(item_id, image) VALUES(4,'images/item4-1.png');
+INSERT INTO itemImages(item_id, image) VALUES(4,'images/item4-2.png');
+INSERT INTO itemImages(item_id, image) VALUES(4,'images/item4-3.png');
+INSERT INTO itemImages(item_id, image) VALUES(5,'images/item5-1.png');
+INSERT INTO itemImages(item_id, image) VALUES(5,'images/item5-2.png');
+INSERT INTO itemImages(item_id, image) VALUES(5,'images/item5-3.png');
+INSERT INTO itemImages(item_id, image) VALUES(6,'images/item6-1.png');
+INSERT INTO itemImages(item_id, image) VALUES(6,'images/item6-2.png');
+INSERT INTO itemImages(item_id, image) VALUES(6,'images/item6-3.png');
+INSERT INTO itemImages(item_id, image) VALUES(7,'images/item7-1.png');
+INSERT INTO itemImages(item_id, image) VALUES(7,'images/item7-2.png');
+INSERT INTO itemImages(item_id, image) VALUES(7,'images/item7-3.png');
+INSERT INTO itemImages(item_id, image) VALUES(8,'images/item8-1.png');
+INSERT INTO itemImages(item_id, image) VALUES(8,'images/item8-2.png');
+INSERT INTO itemImages(item_id, image) VALUES(8,'images/item8-3.png');
+INSERT INTO itemImages(item_id, image) VALUES(9,'images/item9-1.png');
+INSERT INTO itemImages(item_id, image) VALUES(9,'images/item9-2.png');
+INSERT INTO itemImages(item_id, image) VALUES(9,'images/item9-3.png');
+
+
 --顧客テーブルデータ
 INSERT INTO customers(name, address, tel, email, password) VALUES('田中太郎', '東京都', '090-1111-1111', 'tanaka@aaa.com', 'himitu'); 
 INSERT INTO customers(name, address, tel, email, password) VALUES('鈴木一郎', '大阪府', '090-1111-2222', 'suzuki@aaa.com', 'himitu'); 

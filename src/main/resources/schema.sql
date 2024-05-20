@@ -21,6 +21,14 @@ CREATE TABLE items
    detail TEXT,
    price INTEGER
 );
+--商品画像テーブル
+CREATE TABLE itemImages
+(
+   id SERIAL PRIMARY KEY,
+   item_id INTEGER,
+   image TEXT
+ 
+);
 -- 顧客テーブル
 CREATE TABLE customers
 (
