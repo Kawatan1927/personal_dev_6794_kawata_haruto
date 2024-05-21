@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.entity.Coupon;
 import com.example.demo.entity.Customer;
 import com.example.demo.entity.Item;
 import com.example.demo.entity.Order;
@@ -20,6 +22,9 @@ import com.example.demo.model.Cart;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.OrderDetailRepository;
 import com.example.demo.repository.OrderRepository;
+import com.example.demo.service.CouponService;
+import com.example.demo.service.MakeTimesaleList;
+import com.example.demo.service.MakeTimesaleMapService;
 
 @Controller
 public class OrderController {
@@ -38,12 +43,26 @@ public class OrderController {
 
 	@Autowired
 	Account account;
+	
+	@Autowired
+	CouponService couponService;
+	
+	@Autowired
+	MakeTimesaleList makeTimesaleList;
+	
+	@Autowired
+	MakeTimesaleMapService makeTimesaleMapService;
 
 	//注文内容確認とお客様情報確認画面を表示
 	@GetMapping("/order")
 	public String index(@RequestParam("usePoint") Integer usePoint, Model model) {
 		account.setUsePoint(usePoint);
 		model.addAttribute("usePoint", usePoint);
+		//セール情報の取得
+		List<Integer> timesaleItemList = makeTimesaleList.generate();
+		Map<Integer, Double> timesaleMap =  makeTimesaleMapService.generate();
+		model.addAttribute("saleItems", timesaleItemList);
+		model.addAttribute("salemaps", timesaleMap);
 		return "customerForm";
 	}
 
@@ -77,6 +96,14 @@ public class OrderController {
 			orderDetails.add(new OrderDetail(order.getId(), item.getId(), item.getQuantity()));
 		}
 		orderDetailRepository.saveAll(orderDetails);
+		//4.クーポン発行抽選
+		Coupon coupon = couponService.generateCoupon();
+        if (coupon != null) {
+            int couponFlag = 1;
+            model.addAttribute("couponFlag", couponFlag);
+        } else {
+            
+        }
 
 		//セッションスコープのカート情報をクリアする
 		cart.clear();

@@ -20,6 +20,11 @@
 			<span th:text="${getPoints}" style="color: red;"></span>
 		</h3>
 		になります。<br>
+		
+		<th:block th:if="${couponFlag} == 1" >
+			<h3>クーポンを獲得しました！。</h3>
+			<h3>マイページをご確認ください。</h3>
+		</th:block>	
 	</main>
 	<hr>
 	<footer th:replace="footer"></footer>
