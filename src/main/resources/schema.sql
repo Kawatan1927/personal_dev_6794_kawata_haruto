@@ -133,7 +133,8 @@ CREATE TABLE timesale
 CREATE TABLE coupon 
 (
 	id SERIAL PRIMARY KEY,
-	 code VARCHAR(255) NOT NULL,
-	 discount NUMERIC(10, 2),
+	customer_id INTEGER,
+	code VARCHAR(255) NOT NULL,
+	discount NUMERIC(10, 2),
     is_used BOOLEAN NOT NULL DEFAULT FALSE
 );
