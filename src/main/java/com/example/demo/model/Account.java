@@ -30,6 +30,9 @@ public class Account {
 	public Integer userPoint;
 	
 	public Integer getPoint;
+	
+	public Integer usePoint;
+	
 
 	
 

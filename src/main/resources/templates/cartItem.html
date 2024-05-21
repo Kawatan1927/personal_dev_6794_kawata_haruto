@@ -12,7 +12,7 @@
 		<td th:text="${item.name}"></td>
 		<td th:text="'\\' + ${#numbers.formatInteger(item.price, 3, 'COMMA')}"></td>
 		<td th:text="${item.quantity}"></td>
-		<td th:text="'\\' + ${#numbers.formatInteger((item.price * item.quantity), 3, 'COMMA')}"></td>
+		<td th:text="'\\' + ${#numbers.formatInteger(item.price * item.quantity - @account.usePoint, 3, 'COMMA')}"></td>
 		<td>
 			<form action="/cart/delete" method="post">
 				<input type="hidden" name="itemId" th:value="${item.id}">

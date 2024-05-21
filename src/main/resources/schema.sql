@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS orders CASCADE;
 DROP TABLE IF EXISTS order_details CASCADE;
 DROP TABLE IF EXISTS reviews CASCADE;
 DROP TABLE IF EXISTS wishlists CASCADE;
+DROP TABLE IF EXISTS timesale CASCADE;
 
 -- カテゴリーテーブル
 CREATE TABLE categories
@@ -118,10 +119,11 @@ CREATE VIEW v_wishlists AS
 );
 	
 --タイムセールテーブル
-CREATE TABLE timesale (
+CREATE TABLE timesale 
+(
     id SERIAL PRIMARY KEY,
     item_id INTEGER,
     start_time TIMESTAMP,
     end_time TIMESTAMP,
-    discount_price NUMERIC(10, 2),
+    discount_price NUMERIC(10, 2)
 );

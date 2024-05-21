@@ -42,20 +42,27 @@ public class OrderController {
 	//注文内容確認とお客様情報確認画面を表示
 	@GetMapping("/order")
 	public String index(@RequestParam("usePoint") Integer usePoint, Model model) {
+		account.setUsePoint(usePoint);
 		model.addAttribute("usePoint", usePoint);
 		return "customerForm";
 	}
 
 	//注文する
 	@PostMapping("/order")
-	public String order(@RequestParam("id") Integer id, @RequestParam("name") String name,
-			@RequestParam("address") String address, @RequestParam("tel") String tel,
-			@RequestParam("email") String email, @RequestParam("point") Integer point, Model model) {
+	public String order(
+			@RequestParam("id") Integer id, 
+			@RequestParam("name") String name,
+			@RequestParam("address") String address, 
+			@RequestParam("tel") String tel,
+			@RequestParam("email") String email, 
+			@RequestParam("point") Integer point,
+			@RequestParam(name ="usePoint", defaultValue = "0") Integer usePoint, 
+			Model model) {
 		//1.ポイント獲得情報をDBに格納する
 		Customer customer = customerRepository.findById(id).get();
-		customer.setPoint(customer.getPoint() + point);
+		customer.setPoint(customer.getPoint() + point - account.getUsePoint());
 		account.setGetPoint(point);
-		account.setUserPoint(account.getUserPoint() + point);
+		account.setUserPoint(account.getUserPoint() + point - account.getUsePoint());
 		customerRepository.save(customer);
 		//2.注文情報をDBに格納する
 		Order order = new Order(customer.getId(), LocalDate.now(), cart.getTotalPrice());
@@ -74,6 +81,7 @@ public class OrderController {
 		//画面返却用番号・付与ポイント数を設定する
 		model.addAttribute("orderNumber", order.getId());
 		model.addAttribute("getPoints", account.getGetPoint());
+		model.addAttribute("usePoint", usePoint);
 
 		return "ordered";
 	}

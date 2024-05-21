@@ -3,6 +3,7 @@ package com.example.demo.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
@@ -11,6 +12,9 @@ import com.example.demo.entity.Item;
 @Component
 @SessionScope
 public class Cart {
+	
+	@Autowired
+	Account account;
 	
 	//商品リスト
 	private List<Item> itemList = new ArrayList<>();
@@ -26,7 +30,7 @@ public class Cart {
 		//合計金額
 		int total = 0;
 		for(Item item : itemList) {
-			total += item.getPrice() * item.getQuantity();
+			total += item.getPrice() * item.getQuantity() - account.getUsePoint();
 		}
 		
 		return total;
@@ -43,6 +47,7 @@ public class Cart {
 	
 	//カート追加
 	public void add(Item newItem) {
+		account.setUsePoint(0);
 		Item existsItem = null;
 		//現在のカートの商品から同一IDの商品を探す
 		for(Item item : itemList) {
