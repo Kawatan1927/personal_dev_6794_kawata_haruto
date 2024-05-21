@@ -34,15 +34,15 @@ public class CartController {
 	//カート内容を表示
 	@GetMapping("/cart")
 	public String index(
-			@RequestParam(name = "itemId", defaultValue = "1" ) Integer itemId,
-			@RequestParam(name = "quantity", defaultValue = "1" ) Integer quantity,						
+			@RequestParam(name = "itemId", defaultValue = "" ) Integer itemId,
+			@RequestParam(name = "quantity", defaultValue = "" ) Integer quantity,						
 			Model model) {
 		//セール情報の取得
 		List<Integer> timesaleItemList = makeTimesaleList.generate();
 		Map<Integer, Double> timesaleMap =  makeTimesaleMapService.generate();
 		model.addAttribute("saleItems", timesaleItemList);
 		model.addAttribute("salemaps", timesaleMap);
-		if(itemId > 0) {
+		if(itemId != null) {
 			cart.updateItems(itemId, quantity);
 		}
 		//cart.htmlの出力

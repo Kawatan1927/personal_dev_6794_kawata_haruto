@@ -115,8 +115,10 @@ public class Cart {
 				break;
 			}
 		}
+		if(existsItem != null) {
 		//個数の更新をセットする
 		existsItem.setQuantity(quantity);
+		}
 	}
 
 	
