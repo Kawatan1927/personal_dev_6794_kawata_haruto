@@ -1,6 +1,5 @@
 package com.example.demo.entity;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -22,6 +21,9 @@ public class Timesale {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id; //商品ID
+	
+	@Column(name = "item_id")
+	private Integer itemId; // 商品ID
 
 	@ManyToOne
 	@JoinColumn(name = "item_id", insertable = false, updatable = false)
@@ -33,7 +35,7 @@ public class Timesale {
 	@Column(name = "end_time", nullable = false)
 	private LocalDateTime endTime;
 
-	@Column(name = "discount_price", nullable = false)
-	private BigDecimal discountPrice;
+	@Column(name = "discount_price_ratio", nullable = false)
+	private double discountPriceRatio;
 
 }

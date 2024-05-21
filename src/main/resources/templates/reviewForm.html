@@ -10,7 +10,7 @@
 	<hr>
 	<h1>購入した商品をレビュー</h1>
 	
-	<form action="/order-history/{itemId}/addreview" method="post">
+	<form th:each="od:${orderDetails}" th:action="@{/order-history/{id}/addreview(id=${od.itemId})}" method="post">
 		<ul th:if="${errorList}">
 		<li th:each="error:${errorList}" th:text="${error}" style="color: red;"></li>
 	    </ul>

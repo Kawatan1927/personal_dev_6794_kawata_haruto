@@ -95,14 +95,14 @@ public class ReviewController {
 			model.addAttribute("errorList", errorList);
 			Review review = new Review(reviewTitle, reviewScore, reviewImage, reviewDetail);
 			model.addAttribute("review",review);
-			return "accountForm";
+			return "reviewForm";
 		}else {
 			Integer itemId =id;
 			Order order = orderRepository.findByCustomerId(itemId).get(0);
 			LocalDate reviewedOn = order.getOrderedOn();
 			Review review = new Review(itemId, account.getUserId(), reviewedOn, reviewTitle, reviewScore, reviewImage, reviewDetail);
 			reviewRepository.save(review);
-			return "accountConfirm";
+			return "accountDetail";
 		}
 }
 	

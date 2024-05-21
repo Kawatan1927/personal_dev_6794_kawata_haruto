@@ -47,7 +47,10 @@
 		
 		<p th:text="${item.detail}"></p>
 		
-		<h3  th:text="'\\' + ${#numbers.formatInteger(item.price, 3, 'COMMA')}"></h3>
+		<th:block th:if="${#lists.contains(saleItems, item.id)}" >
+		<h3  th:text="'\\' + ${#numbers.formatInteger(item.price * salemaps.get(item.id), 3, 'COMMA')}"></h3></th:block>
+		<th:block th:unless="${#lists.contains(saleItems, item.id)}" >
+		<h3  th:text="'\\' + ${#numbers.formatInteger(item.price, 3, 'COMMA')}"></h3></th:block>
 		
 		<p><a th:href="'/items/'+${item.id} + '/review'" style="padding-left: 10px;">カスタマレビューを確認</a></p>
 	<form action="/cart/add" method="post">

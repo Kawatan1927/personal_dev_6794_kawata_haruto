@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,8 @@ import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.repository.VOrderDetailRepository;
 import com.example.demo.repository.VWishListRepository;
+import com.example.demo.service.MakeTimesaleList;
+import com.example.demo.service.MakeTimesaleMapService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -43,6 +46,12 @@ public class AccountController {
 	
 	@Autowired
 	Account account;
+	
+	@Autowired
+	MakeTimesaleList makeTimesaleList;
+	
+	@Autowired
+	MakeTimesaleMapService makeTimesaleMapService;
 	
 	
 	//ログイン画面を表示
@@ -208,6 +217,12 @@ public class AccountController {
 	//欲しいものリスト画面を表示
 	@GetMapping("/wishlist")
 	public String wishList(Model model) {
+		//セール情報の取得
+		List<Integer> timesaleItemList = makeTimesaleList.generate();
+		Map<Integer, Double> timesaleMap =  makeTimesaleMapService.generate();
+		model.addAttribute("saleItems", timesaleItemList);
+		model.addAttribute("salemaps", timesaleMap);
+				
 		List<VWishList> wishListList =  vWishListRepository.findBycustomerId(account.getUserId());
 		model.addAttribute("wishListList",wishListList);				
 		return "wishList";

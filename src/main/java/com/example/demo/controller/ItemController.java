@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,10 @@ import com.example.demo.model.Account;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ItemImagesRepository;
 import com.example.demo.repository.ItemRepository;
+import com.example.demo.repository.TimeSaleRepository;
 import com.example.demo.repository.WishListRepository;
+import com.example.demo.service.MakeTimesaleList;
+import com.example.demo.service.MakeTimesaleMapService;
 
 @Controller
 public class ItemController {
@@ -36,7 +40,16 @@ public class ItemController {
 	WishListRepository wishListRepository;
 	
 	@Autowired
+	TimeSaleRepository timeSaleRepository;
+	
+	@Autowired
 	Account account;
+	
+	@Autowired
+	MakeTimesaleList makeTimesaleList;
+	
+	@Autowired
+	MakeTimesaleMapService makeTimesaleMapService;
 	
 	//商品一覧表示
 	@GetMapping("/items")
@@ -56,6 +69,10 @@ public class ItemController {
 		
 		//商品一覧情報の取得
 		List<Item> itemList = null;
+		//セール情報の取得
+		List<Integer> timesaleItemList = makeTimesaleList.generate();
+		Map<Integer, Double> timesaleMap =  makeTimesaleMapService.generate();
+		
 		if(categoryId == null) {
 			if(!(keyword.equals(""))) {
 				itemList = itemRepository.findByNameLike("%"+keyword+"%");
@@ -67,6 +84,8 @@ public class ItemController {
 			itemList = itemRepository.findByCategoryId(categoryId);
 		}
 		model.addAttribute("items", itemList);
+		model.addAttribute("saleItems", timesaleItemList);
+		model.addAttribute("salemaps", timesaleMap);
 		
 		return "items";
 	}
@@ -76,7 +95,12 @@ public class ItemController {
 	public String show(
 			@PathVariable("id") Integer id,
 			Model model) {
-
+		
+		//セール情報の取得
+		List<Integer> timesaleItemList = makeTimesaleList.generate();
+		Map<Integer, Double> timesaleMap =  makeTimesaleMapService.generate();
+		model.addAttribute("saleItems", timesaleItemList);
+		model.addAttribute("salemaps", timesaleMap);
 		// 主キー検索
 		Item item = itemRepository.findById(id).get();
 		model.addAttribute("item", item);
@@ -95,6 +119,12 @@ public class ItemController {
 	public String addWishList(
 			@RequestParam("itemId") Integer id,
 			Model model) {
+		//セール情報の取得
+		List<Integer> timesaleItemList = makeTimesaleList.generate();
+		Map<Integer, Double> timesaleMap =  makeTimesaleMapService.generate();
+		model.addAttribute("saleItems", timesaleItemList);
+		model.addAttribute("salemaps", timesaleMap);
+		
 		WishList wishlist = new WishList(id, account.getUserId());
 		wishListRepository.save(wishlist);
 		Item item = itemRepository.findById(id).get();

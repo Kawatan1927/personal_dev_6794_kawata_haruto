@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.entity.Timesale;
 
 public interface TimeSaleRepository extends JpaRepository<Timesale, Integer> {
-	List<Timesale> findByStartTimeBeforeAndEndTimeAfter(LocalDateTime start, LocalDateTime end);
+	List<Timesale> findByItemIdAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(Integer itemId, LocalDateTime startTime, LocalDateTime endTime);
 
+	List<Timesale> findByStartTimeLessThanEqualAndEndTimeGreaterThanEqual(LocalDateTime startTime, LocalDateTime endTime);
 }

@@ -1,13 +1,19 @@
 package com.example.demo.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import com.example.demo.entity.Item;
+import com.example.demo.entity.Timesale;
+import com.example.demo.repository.TimeSaleRepository;
+import com.example.demo.service.MakeTimesaleList;
+import com.example.demo.service.MakeTimesaleMapService;
 
 @Component
 @SessionScope
@@ -15,6 +21,15 @@ public class Cart {
 	
 	@Autowired
 	Account account;
+	
+	@Autowired
+	MakeTimesaleList makeTimesaleList;
+	
+	@Autowired
+	MakeTimesaleMapService makeTimesaleMapService;
+	
+	@Autowired
+	TimeSaleRepository timeSaleRepository;
 	
 	//商品リスト
 	private List<Item> itemList = new ArrayList<>();
@@ -27,13 +42,36 @@ public class Cart {
 	
 	//合計金額取得用ゲッター
 	public Integer getTotalPrice() {
+		//セール情報の取得
+		List<Integer> timesaleItemList = makeTimesaleList.generate();
+		Map<Integer, Double> timesaleMap =  makeTimesaleMapService.generate();
 		//合計金額
 		int total = 0;
-		for(Item item : itemList) {
-			total += item.getPrice() * item.getQuantity() - account.getUsePoint();
+		if(timesaleItemList.size() == 0) {
+			for(Item item : itemList) {
+				total += item.getPrice() * item.getQuantity() - account.getUsePoint();
+			}
+			
+			return total;
+		}else {
+			int i = 0;
+			LocalDateTime now = LocalDateTime.now();
+			List<Timesale> timesaleList = timeSaleRepository.findByStartTimeLessThanEqualAndEndTimeGreaterThanEqual(now, now);
+			for(Item item : itemList) {
+				for(Integer saleId :timesaleItemList ) {
+					if(item.getId() == saleId) {
+						total += item.getPrice() * timesaleMap.get(item.getId()) * item.getQuantity();
+						 i += 1;
+						break;
+					}
+				}
+				if(i == 0) {
+					total += item.getPrice()  * item.getQuantity();
+				}
+				
+			}return total;
 		}
 		
-		return total;
 	}
 	
 	//獲得予定ポイント取得用ゲッター
@@ -66,6 +104,21 @@ public class Cart {
 					existsItem.getQuantity() + newItem.getQuantity());
 		}
 	}
+	
+//	カートの個数を更新する
+	public void updateItems(Integer itemId, Integer quantity) {
+		Item existsItem = null;
+		//現在のカートの商品から同一のIDの商品を探す
+		for (Item item : itemList) {
+			if (item.getId() == itemId) {
+				existsItem = item;
+				break;
+			}
+		}
+		//個数の更新をセットする
+		existsItem.setQuantity(quantity);
+	}
+
 	
 	//カートから商品を削除
 	public void delete(int itemId) {

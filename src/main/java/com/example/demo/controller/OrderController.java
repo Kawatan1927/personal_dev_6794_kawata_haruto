@@ -58,6 +58,9 @@ public class OrderController {
 			@RequestParam("point") Integer point,
 			@RequestParam(name ="usePoint", defaultValue = "0") Integer usePoint, 
 			Model model) {
+		
+		
+		
 		//1.ポイント獲得情報をDBに格納する
 		Customer customer = customerRepository.findById(id).get();
 		customer.setPoint(customer.getPoint() + point - account.getUsePoint());

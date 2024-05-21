@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS order_details CASCADE;
 DROP TABLE IF EXISTS reviews CASCADE;
 DROP TABLE IF EXISTS wishlists CASCADE;
 DROP TABLE IF EXISTS timesale CASCADE;
+DROP TABLE IF EXISTS coupon CASCADE;
 
 -- カテゴリーテーブル
 CREATE TABLE categories
@@ -125,5 +126,14 @@ CREATE TABLE timesale
     item_id INTEGER,
     start_time TIMESTAMP,
     end_time TIMESTAMP,
-    discount_price NUMERIC(10, 2)
+    discount_price_ratio NUMERIC(10, 2)
+);
+
+--クーポンテーブル
+CREATE TABLE coupon 
+(
+	id SERIAL PRIMARY KEY,
+	 code VARCHAR(255) NOT NULL,
+	 discount NUMERIC(10, 2),
+    is_used BOOLEAN NOT NULL DEFAULT FALSE
 );

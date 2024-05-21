@@ -1,7 +1,11 @@
 package com.example.demo.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.entity.Item;
 import com.example.demo.model.Cart;
 import com.example.demo.repository.ItemRepository;
+import com.example.demo.service.MakeTimesaleList;
+import com.example.demo.service.MakeTimesaleMapService;
 
 @Controller
 public class CartController {
@@ -19,9 +25,26 @@ public class CartController {
 	@Autowired
 	ItemRepository itemRepository;
 	
+	@Autowired
+	MakeTimesaleList makeTimesaleList;
+	
+	@Autowired
+	MakeTimesaleMapService makeTimesaleMapService;
+	
 	//カート内容を表示
 	@GetMapping("/cart")
-	public String index() {
+	public String index(
+			@RequestParam(name = "itemId", defaultValue = "1" ) Integer itemId,
+			@RequestParam(name = "quantity", defaultValue = "1" ) Integer quantity,						
+			Model model) {
+		//セール情報の取得
+		List<Integer> timesaleItemList = makeTimesaleList.generate();
+		Map<Integer, Double> timesaleMap =  makeTimesaleMapService.generate();
+		model.addAttribute("saleItems", timesaleItemList);
+		model.addAttribute("salemaps", timesaleMap);
+		if(itemId > 0) {
+			cart.updateItems(itemId, quantity);
+		}
 		//cart.htmlの出力
 		return "cart";
 	}
