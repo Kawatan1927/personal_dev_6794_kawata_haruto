@@ -45,6 +45,7 @@ INSERT INTO item_images(item_id, image) VALUES(9,'/images/item9-3.png');
 --顧客テーブルデータ
 INSERT INTO customers(name, address, tel, email, password) VALUES('田中太郎', '東京都', '090-1111-1111', 'tanaka@aaa.com', 'himitu'); 
 INSERT INTO customers(name, address, tel, email, password) VALUES('鈴木一郎', '大阪府', '090-1111-2222', 'suzuki@aaa.com', 'himitu'); 
+INSERT INTO customers(name, address, tel, email, password) VALUES('河田陽大', '大阪府', '090-1111-2222', 'haruto.kawata0602@gmail.com', 'himitu'); 
 
 --タイムセールテーブルデータ
 INSERT INTO timesale (item_id, start_time, end_time, discount_price_ratio) VALUES(1, '2024-05-22 10:00:00', '2024-05-28 12:00:00', 0.90);

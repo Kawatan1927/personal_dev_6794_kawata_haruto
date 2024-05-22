@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Coupon;
 import com.example.demo.entity.Customer;
@@ -23,6 +25,7 @@ import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.repository.VOrderDetailRepository;
 import com.example.demo.repository.VWishListRepository;
+import com.example.demo.service.EmailService;
 import com.example.demo.service.MakeTimesaleList;
 import com.example.demo.service.MakeTimesaleMapService;
 
@@ -57,6 +60,9 @@ public class AccountController {
 
 	@Autowired
 	MakeTimesaleMapService makeTimesaleMapService;
+	
+	@Autowired
+    EmailService emailService;
 
 	//ログイン画面を表示
 	@GetMapping({ "/", "/login", "/logout" })
@@ -269,5 +275,49 @@ public class AccountController {
 		model.addAttribute("couponList", couponList);
 		return "couponList";
 	}
+	
+	//パスワード再発行メール送信ページの表示
+	@GetMapping("/forgot-password")
+    public String showForgotPasswordPage(@ModelAttribute("message") String message) {
+        return "forgot-password";
+    }
+	
+	//パスワード再発行メール送信処理
+	@PostMapping("/forgot-password")
+    public String forgotPassword(@RequestParam String email, RedirectAttributes redirectAttributes) {
+		List<Customer> customer = customerRepository.findByEmail(email);
+		 if (customer.size() != 0) {
+		emailService.sendEmail(email,"パスワードの再設定について", "パスワードを変更するためのリンクを送信しました。\n下記リンクより変更を行うことができます。\n http://localhost:8080/setNewPassword");
+		redirectAttributes.addFlashAttribute("message", "パスワードの再設定について数分以内にメールでご連絡いたします。");
+        return "redirect:/login";
+		 }else {
+			 redirectAttributes.addFlashAttribute("message", "メールアドレスは見つかりませんでした。"); 
+			 return "redirect:/forgot-password";
+		 }
+	}
+	
+	//パスワード再設定ページの表示
+		@GetMapping("/setNewPassword")
+	    public String showSetNewPasswordPage(@ModelAttribute("message") String message) {
+	        return "setNewPassword";
+	    }
+		
+	//パスワード再設定
+		@PostMapping("/setNewPassword")
+		public String setNewPassword(
+				@RequestParam String email, 
+				@RequestParam String password, 
+				RedirectAttributes redirectAttributes) {
+	        Customer customer = customerRepository.findByEmail(email).get(0);
+	        if (customer != null) {
+	            customer.setPassword(password); // パスワードを直接設定する
+	            customerRepository.save(customer);
+	            redirectAttributes.addFlashAttribute("message", "パスワードを再設定しました。");
+	            return "redirect:/login";
+	        } else {
+	            redirectAttributes.addFlashAttribute("message", "メールアドレスが見つかりません");
+	            return "redirect:/setNewPassword";
+	        }
+	    }
 
 }
