@@ -8,6 +8,9 @@
 <body>
 	<header th:replace="header"></header>
 	<hr>
+	<th:block th:if="${message} != null" >
+		<p style="color: red;" th:text="${message}"></p>
+	</th:block>
 	<table>
 			<tr>
 				<th>商品名</th>

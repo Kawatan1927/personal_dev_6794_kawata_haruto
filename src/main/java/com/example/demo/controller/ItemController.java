@@ -125,8 +125,17 @@ public class ItemController {
 		model.addAttribute("saleItems", timesaleItemList);
 		model.addAttribute("salemaps", timesaleMap);
 		
-		WishList wishlist = new WishList(id, account.getUserId());
-		wishListRepository.save(wishlist);
+		 Integer userId = account.getUserId();
+		    
+		    // 既に欲しいものリストにアイテムが存在するか確認
+		    if (!wishListRepository.existsByItemIdAndCustomerId(id, userId)) {
+		        WishList wishlist = new WishList(id, userId);
+		        wishListRepository.save(wishlist);
+		    } else {
+		        model.addAttribute("message", "このアイテムは既に欲しいものリストに追加されています。");
+		    }	
+		    
+		    
 		Item item = itemRepository.findById(id).get();
 		model.addAttribute("item", item);
 		ItemImage itemimage1 = itemImagesRepository.findByItemId(id).get(0);
@@ -142,11 +151,18 @@ public class ItemController {
 	public String deleteWishList(
 			@RequestParam("itemId") Integer id,
 			Model model) {
-		WishList wishlist = new WishList(id, account.getUserId());
-		wishListRepository.delete(wishlist);
-		Item item = itemRepository.findById(id).get();
-		model.addAttribute("item", item);
-		return "wishList";
+		 // ユーザーIDとアイテムIDに基づいてウィッシュリストエンティティを取得
+	    WishList wishlist = wishListRepository.findByItemIdAndCustomerId(id, account.getUserId());
+	    if (wishlist != null) {
+	        wishListRepository.delete(wishlist);
+	    } else {
+	        model.addAttribute("message", "ほしいものリストにアイテムが存在しません。");
+	    }
+	    
+	    Item item = itemRepository.findById(id).get();
+	    model.addAttribute("item", item);
+	    return "wishList";
+		
 	}
 
 }
