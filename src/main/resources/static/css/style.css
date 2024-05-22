@@ -1,67 +1,116 @@
-/* 全体 */
+/* ベーススタイル */
 body {
-	background-color: #EFF0F7; /* 背景色  */
-	text-align: center; /* 中央寄せ  */
-	min-width: 900px; /* 最小幅  */
-}
-/*ヘッダー、ナビゲーションメニュー、フッター*/
-header, nav, footer{
-	background-color: #38B6FF;
-	color: #ffffff; /* 文字色  */
-	padding-top: 5px; /* 内側余白(上)  */
-	padding-bottom: 5px; /* 内側余白(下)  */
-}	
-/*ヘッダー、ナビゲーション内リンク*/
-header a, nav a{
-	color: #ffffff;
-}
-/*ヘッダー内見出し*/
-header h1{
-	font-size: 20pt;
-	margin:10px auto;
-}
-/*仕切り線*/
-hr{
-	border-top: 2px dashed #7d8bae;
-}
-/*メイン*/
-main{
-	background-color: #ffffff;
-	min-height: 50px;
-	padding: 20px;
-}
-/*表線*/
-table, th, td{
-	border-collapse: collapse;
-	border: 1px solid #7d8bae;
-}
-/*表*/
-table{
-	margin: 5px auto; /* 外側余白  */
-	min-width: 800px;
-}
-/*表見出しセル*/
-table th{
-	background: #7d8bae;
-	color: #ffffff;
-}
-/*送信ボタン*/
-button{
-	margin: 2px;
-	padding: 5px 20px;
-	background-color: #e5857b;
-	color: #ffffff;
-	border: none;
-	width: 150px;
-	cursor: pointer;
-}
-/*送信ボタン(マウスオーバー時)*/
-button:hover{
-	background-color: #f1b2b2;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
 }
 
-.scroll-img{
-	
-	border: 5px solid #f00;
-	width: 200px;
+header, footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: #ccc;
+    margin: 1em 0;
+}
+
+/* ナビゲーションスタイル */
+nav {
+    background-color: #007bff;
+    padding: 1em;
+    text-align: center;
+}
+
+nav form {
+    display: inline-block;
+    margin-right: 1em;
+}
+
+nav form input[type="text"] {
+    padding: 0.5em;
+    border: none;
+    border-radius: 4px;
+    margin-right: 0.5em;
+}
+
+nav form button {
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 4px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+}
+
+nav form button:hover {
+    background-color: #218838;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 0.5em;
+    padding: 0.5em;
+    display: inline-block;
+}
+
+nav a:hover {
+    background-color: #0056b3;
+    border-radius: 4px;
+}
+
+/* メインコンテンツスタイル */
+main {
+    padding: 1em;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1em;
+}
+
+table th, table td {
+    padding: 0.75em;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #343a40;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+table td form {
+    display: inline-block;
+    margin: 0;
+}
+
+table td form button {
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 4px;
+    background-color: #ffc107;
+    color: white;
+    cursor: pointer;
+}
+
+table td form button:hover {
+    background-color: #e0a800;
 }
