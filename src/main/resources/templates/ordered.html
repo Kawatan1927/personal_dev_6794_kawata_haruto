@@ -21,6 +21,9 @@
 		</h3>
 		になります。<br>
 		
+		<th:block th:if="${couponApplied}">
+			<h3>クーポンが正常に適用されました。</h3>
+		</th:block>
 		<th:block th:if="${couponFlag} == 1" >
 			<h3>クーポンを獲得しました！。</h3>
 			<h3>マイページをご確認ください。</h3>

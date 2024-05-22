@@ -40,6 +40,11 @@
 			<input type="hidden" name="tel" th:value="${@account.userTel}">
 			<input type="hidden" name="email" th:value="${@account.userEmail}">
 			<input type="hidden" name="point" th:value="${@cart.totalPoint}">
+			<h3>クーポンコード</h3>
+			<input type="text" name="couponCode" placeholder="クーポンコードを入力">
+			<th:block th:if="${couponError}">
+				<p style="color: red;" th:text="${couponError}"></p>
+			</th:block>
 			<button>この内容で注文</button>
 		</form>
 	</main>

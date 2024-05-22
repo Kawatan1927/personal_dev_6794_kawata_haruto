@@ -58,5 +58,5 @@ INSERT INTO timesale (item_id, start_time, end_time, discount_price_ratio) VALUE
 INSERT INTO timesale (item_id, start_time, end_time, discount_price_ratio) VALUES(9, '2024-05-21 10:00:00', '2024-05-28 12:00:00', 0.90);
 
 --クーポンデータ
-INSERT INTO coupon (customer_id, code, discount, is_used) VALUES(1, 0, 0.9, false);
+INSERT INTO coupon (customer_id, code, discount, is_used) VALUES(1, 0, 0.1, false);
  

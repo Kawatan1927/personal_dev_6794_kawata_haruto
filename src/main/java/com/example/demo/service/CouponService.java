@@ -24,11 +24,15 @@ public class CouponService {
 			Coupon coupon = new Coupon();
 			coupon.setCustomerId(account.getUserId());
 			coupon.setCode(UUID.randomUUID().toString());
-			coupon.setDiscount(0.9); // 10%の割引
+			coupon.setDiscount(0.1); // 10%の割引
 			coupon.setUsed(false);
 			return couponRepository.save(coupon);
 		}
 		return null;
 	}
+	
+	public Coupon findByCode(String code) {
+        return couponRepository.findByCode(code).orElse(null);
+    }
 
 }

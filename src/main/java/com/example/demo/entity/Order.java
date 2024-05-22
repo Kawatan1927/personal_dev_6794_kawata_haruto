@@ -11,10 +11,12 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "orders")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order {
@@ -29,9 +31,9 @@ public class Order {
 	private LocalDate orderedOn; // 注文日
 	
 	@Column(name = "total_price")
-	private Integer totalPrice; // 合計金額
+	private double totalPrice; // 合計金額
 	
-	public Order(Integer customerId, LocalDate orderedOn, Integer totalPrice) {
+	public Order(Integer customerId, LocalDate orderedOn, double totalPrice) {
 		this.customerId = customerId;
 		this.orderedOn = orderedOn;
 		this.totalPrice = totalPrice;

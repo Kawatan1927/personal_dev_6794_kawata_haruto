@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>所持クーポンリスト</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+	<header th:replace="header"></header>
+	<hr>
+	<h1>クーポンリスト</h1>
+	<table>
+        <thead>
+            <tr>
+                <th>クーポンコード</th>
+                <th>割引率</th>
+                <th>クーポン利用状況</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="coupon : ${couponList}">
+                <td th:text="${coupon.code}"></td>
+                <td th:text="${coupon.discount * 100 + '%'}"></td>
+                <td th:text="${coupon.isUsed ? '使用済み' : '未使用'}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+	<footer th:replace="footer"></footer>
+</body>
+</html>

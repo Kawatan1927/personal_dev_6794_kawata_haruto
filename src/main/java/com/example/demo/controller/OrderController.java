@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Coupon;
 import com.example.demo.entity.Customer;
@@ -19,6 +21,7 @@ import com.example.demo.entity.Order;
 import com.example.demo.entity.OrderDetail;
 import com.example.demo.model.Account;
 import com.example.demo.model.Cart;
+import com.example.demo.repository.CouponRepository;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.OrderDetailRepository;
 import com.example.demo.repository.OrderRepository;
@@ -40,6 +43,9 @@ public class OrderController {
 
 	@Autowired
 	OrderDetailRepository orderDetailRepository;
+	
+	@Autowired
+	CouponRepository couponRepository;
 
 	@Autowired
 	Account account;
@@ -55,9 +61,16 @@ public class OrderController {
 
 	//注文内容確認とお客様情報確認画面を表示
 	@GetMapping("/order")
-	public String index(@RequestParam("usePoint") Integer usePoint, Model model) {
-		account.setUsePoint(usePoint);
-		model.addAttribute("usePoint", usePoint);
+	public String index(@RequestParam(name = "usePoint", required = false) Integer usePoint,
+						@ModelAttribute("couponError") String couponError,
+		
+						Model model) {
+		if(usePoint != null) {
+			account.setUsePoint(usePoint);
+			model.addAttribute("usePoint", usePoint);
+		}else {
+			model.addAttribute("usePoint", account.getUsePoint());
+		}
 		//セール情報の取得
 		List<Integer> timesaleItemList = makeTimesaleList.generate();
 		Map<Integer, Double> timesaleMap =  makeTimesaleMapService.generate();
@@ -75,8 +88,10 @@ public class OrderController {
 			@RequestParam("tel") String tel,
 			@RequestParam("email") String email, 
 			@RequestParam("point") Integer point,
-			@RequestParam(name ="usePoint", defaultValue = "0") Integer usePoint, 
-			Model model) {
+			@RequestParam(name ="usePoint", defaultValue = "0") Integer usePoint,
+			@RequestParam(name = "couponCode", required = false) String couponCode,
+			Model model,
+			RedirectAttributes redirectAttributes) {
 		
 		
 		
@@ -96,7 +111,23 @@ public class OrderController {
 			orderDetails.add(new OrderDetail(order.getId(), item.getId(), item.getQuantity()));
 		}
 		orderDetailRepository.saveAll(orderDetails);
-		//4.クーポン発行抽選
+		
+		//4.クーポン利用処理
+		if (couponCode != null && !couponCode.isEmpty()) {
+	        Coupon coupon = couponService.findByCode(couponCode);
+	        if (coupon != null && !coupon.isUsed()) {
+	            order.setTotalPrice(order.getTotalPrice() * (1 - coupon.getDiscount()));
+	            coupon.setUsed(true);
+	            couponRepository.save(coupon);
+	            orderRepository.save(order);  // 更新された合計金額を保存
+	            model.addAttribute("couponApplied", true);
+	        } else {
+	        	redirectAttributes.addFlashAttribute("couponError", "クーポンは使用済みです。");
+	            return "redirect:/order";
+	        }
+	    }
+		
+		//5.クーポン発行抽選
 		Coupon coupon = couponService.generateCoupon();
         if (coupon != null) {
             int couponFlag = 1;
