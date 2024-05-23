@@ -1,5 +1,33 @@
-<header>
-	<h1><a href="/items">サンプルショッピング</a></h1>
-	<a href="/youraccount" th:text="${@account.userName} + 'さんがログイン中/所持ポイント：' + ${@account.userPoint} + 'ポイント'"></a>
-	<a href="/logout">ログアウト</a>
+<header data-bs-theme="dark">
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/items">サンプルショッピング</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/items">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/cart">Cart</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/youraccount">Account</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " th:text="${@account.userName} + 'さんがログイン中/所持ポイント：' + ${@account.userPoint} + 'ポイント'"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+        </ul>
+        <form class="d-flex" action="/items" method="get" role="search">
+          <input class="form-control me-2" type="search" name="keyword" th:value="${keyword}" placeholder="Search" aria-label="Search" >
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
 </header>
