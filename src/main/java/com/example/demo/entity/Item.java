@@ -35,9 +35,8 @@ public class Item {
 	@Transient //永続化対象外
 	private Integer quantity; //数量
 
-	@OneToMany
-	@JoinColumn(name = "id")
-	private List<ItemImage> itemImage;
+	@OneToMany(mappedBy = "item")
+	private List<ItemImage> itemImages;
 
 	@OneToMany
 	@JoinColumn(name = "id")
