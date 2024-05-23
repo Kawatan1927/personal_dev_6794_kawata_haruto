@@ -1,0 +1,45 @@
+html,
+body {
+  height: 100%;
+  line-height: 1.6;
+}
+
+.form-signup {
+  max-width: 330px;
+  padding: 1rem;
+}
+
+.form-signup .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signup input[type="text"],
+.form-signup input[type="email"],
+.form-signup input[type="password"] {
+  margin-bottom: -1px;
+}
+
+.form-signup input[type="password"] {
+  margin-bottom: 10px;
+}
+
+h1 {
+  white-space: nowrap;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 1rem; /* テーブルの下に余白を追加 */
+  border-collapse: separate;
+  border-spacing: 0 0.5rem; /* 行間の余白を追加 */
+}
+
+th,
+td {
+  padding: 0.75rem;
+  vertical-align: top;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
