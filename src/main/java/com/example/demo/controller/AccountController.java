@@ -114,7 +114,7 @@ public class AccountController {
 		account.setUserPassword(userPassword);
 
 		//「/items」へのリダイレクト
-		return "redirect:/items";
+		return "redirect:/home";
 	}
 
 	//ユーザー登録画面を表示

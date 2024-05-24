@@ -55,8 +55,34 @@ public class ItemController {
 	//ホームページ表示
 	@GetMapping("/home")
 	public String home() {
-		return "items";
+		return "mainMenu";
 	}
+	
+	//利用規約表示
+	@GetMapping("/terms")
+	public String terms() {
+		return "terms";
+	}
+	
+	//プライバシーポリシー表示
+	@GetMapping("/privacy")
+	public String privacy() {
+		return "privacy-policy";
+	}
+	
+	//ニュース1ー表示
+	@GetMapping("/news")
+	public String news() {
+		return "news";
+	}
+	
+	//ニュース2ー表示
+	@GetMapping("/news2")
+	public String news2() {
+		return "news2";
+	}
+	
+	
 	
 	//商品一覧表示
 	@GetMapping("/items")
@@ -106,7 +132,7 @@ public class ItemController {
 		model.addAttribute("saleItems", timesaleItemList);
 		model.addAttribute("salemaps", timesaleMap);
 
-		return "a";
+		return "items";
 	}
 
 	//商品詳細画面表示
