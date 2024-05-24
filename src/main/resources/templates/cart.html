@@ -8,13 +8,18 @@
 <body>
 		<header th:replace="header"></header>
 		<hr>
-		<main>
+		 <main class="container my-4">
+        <div th:if="${@cart.itemList.isEmpty()}">
+            <p>カートは空です</p>
+        </div>
+        <div th:unless="${@cart.itemList.isEmpty()}">
 			<span th:replace="cartItem"></span>
 			<form action="/order" method="get">
 				<p>利用するポイント</p>
 				<input type="number" name="usePoint" value="0" min="0" th:max="${@account.userPoint}"><br>
 				<button>注文する</button>
 			</form>
+		</div>
 		</main>
 		<hr>
 	    <footer th:replace="footer"></footer>
