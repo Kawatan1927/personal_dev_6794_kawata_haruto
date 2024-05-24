@@ -26,12 +26,7 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
             <div class="col" th:each="item:${items}">
                 <div class="card h-100">
-                    <div th:if="${item.itemImages.size() > 0}">
-                        <img th:src="@{'/images/' + ${item.itemImages.get(0).image}}" class="card-img-top" alt="商品画像">
-                    </div>
-                    <div th:if="${item.itemImages.size() == 0}">
-                        <img th:src="@{'/images/default.png'}" class="card-img-top" alt="商品画像">
-                    </div>
+                   <img th:src="@{${imageMap.get(item.id).size() > 0 ? imageMap.get(item.id).get(0).image : '/images/default.png'}}" class="card-img-top" alt="商品画像">
                     <div class="card-body">
                         <h5 class="card-title">
                             <a th:href="@{'/items/' + ${item.id}}" th:text="${item.name}"></a><br>
