@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,6 +72,7 @@ public class ItemController {
 
 		//商品一覧情報の取得
 		List<Item> itemList = null;
+		Map<Integer, List<ItemImage>> imageMap = new HashMap<>();
 		//セール情報の取得
 		List<Integer> timesaleItemList = makeTimesaleList.generate();
 		Map<Integer, Double> timesaleMap = makeTimesaleMapService.generate();
@@ -86,11 +88,20 @@ public class ItemController {
 			//itemsテーブルをカテゴリーIDを指定して一覧を取得
 			itemList = itemRepository.findByCategoryId(categoryId);
 		}
+		
+		// 各商品に対応する画像リストを取得
+        if (itemList != null) {
+            for (Item item : itemList) {
+                List<ItemImage> images = itemImagesRepository.findByItemId(item.getId());
+                imageMap.put(item.getId(), images);
+            }
+        }
 
 		// 商品の数を取得
 		int itemCount = itemList.size();
 
 		model.addAttribute("items", itemList);
+		model.addAttribute("imageMap", imageMap);
 		model.addAttribute("itemCount", itemCount);
 		model.addAttribute("saleItems", timesaleItemList);
 		model.addAttribute("salemaps", timesaleMap);
@@ -110,12 +121,10 @@ public class ItemController {
 		// 主キー検索
 		Item item = itemRepository.findById(id).get();
 		model.addAttribute("item", item);
-		ItemImage itemimage1 = itemImagesRepository.findByItemId(id).get(0);
-		model.addAttribute("itemimage1", itemimage1);
-		ItemImage itemimage2 = itemImagesRepository.findByItemId(id).get(1);
-		model.addAttribute("itemimage2", itemimage2);
-		ItemImage itemimage3 = itemImagesRepository.findByItemId(id).get(2);
-		model.addAttribute("itemimage3", itemimage3);
+		Map<Integer, List<ItemImage>> imageMap = new HashMap<>();
+		List<ItemImage> images = itemImagesRepository.findByItemId(id);
+		imageMap.put(item.getId(), images);
+		model.addAttribute("imageMap", imageMap);
 
 		return "itemDetail";
 	}
