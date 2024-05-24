@@ -51,6 +51,12 @@ public class ItemController {
 	@Autowired
 	MakeTimesaleMapService makeTimesaleMapService;
 
+	//ホームページ表示
+	@GetMapping("/home")
+	public String home() {
+		return "items";
+	}
+	
 	//商品一覧表示
 	@GetMapping("/items")
 	public String index(@RequestParam(value = "categoryId", defaultValue = "") Integer categoryId,
