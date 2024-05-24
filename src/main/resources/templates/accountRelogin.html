@@ -1,24 +1,30 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="/css/style.css">
-
-</head>
-<body>
-	<header>
-		<h1>サンプルショッピング</h1>
-	</header>
-	<main>
-		<h2>ログイン</h2>
-		<p th:text="${name}"></p>
-		<p th:text="${email}"></p>
-		<form action="/account/setting" method="post">
-			<span th:text="${message}" style="color: red;"></span><br>
-			<input type="password" name="password" placeholder="パスワード"><br>
-			<button>ログイン</button><br>
+<!doctype html>
+<html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
+  <head><script src="/docs/5.3/assets/js/color-modes.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.112.5">
+    <title>ログイン</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="/css/login.css" rel="stylesheet">
+  </head>
+  <body class="d-flex align-items-center py-4 bg-body-tertiary">
+<main class="form-signin w-100 m-auto">
+	<form action="/account/setting" method="post">
+    <img class="mb-4" src="/images/icon.png" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 fw-normal">ログイン</h1>
+    <span class="h6 mb-3 fw-normal" th:text="${message}" style="color: red;"></span>
+		<p class="h5 mb-3 fw-normal" th:text="${name}"></p>
+		<p class="h5 mb-3 fw-normal" th:text="${email}"></p>
+	<div class="form-floating">
+      <input type="password" class="form-control"  name="password" placeholder="Password">
+      <label for="floatingPassword">パスワード</label>
+    </div>
+			<button class="btn btn-primary w-100 py-2" type="submit">ログイン</button>
 		</form>
 	</main>
-</body>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </body>
 </html>
