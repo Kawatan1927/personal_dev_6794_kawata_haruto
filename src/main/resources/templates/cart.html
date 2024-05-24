@@ -19,7 +19,7 @@
                     <div th:each="item:${@cart.itemList}" class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="/images/sample.jpg" class="img-fluid rounded-start" alt="商品画像">
+                                <img th:src="@{${imageMap.get(item.id).size() > 0 ? imageMap.get(item.id).get(0).image : '/images/default.png'}}" class="img-fluid rounded-start" alt="商品画像">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -53,7 +53,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">注文概要</h5>
-                            <p th:text="'総計: &yen;' + ${@cart.totalPrice}">総計: </p>
+                            <p th:text="'総計: &yen;' + ${#numbers.formatInteger(@cart.totalPrice, 3, 'COMMA')}">総計: </p>
                             <p th:if="${usePoint}" th:text="'利用予定ポイント: ' + ${usePoint} + 'ポイント'">利用予定ポイント: </p>
                             <form action="/order" method="get">
                                 <div class="mb-3">

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Item;
+import com.example.demo.entity.ItemImage;
 import com.example.demo.model.Cart;
+import com.example.demo.repository.ItemImagesRepository;
 import com.example.demo.repository.ItemRepository;
 import com.example.demo.service.MakeTimesaleList;
 import com.example.demo.service.MakeTimesaleMapService;
@@ -24,6 +27,9 @@ public class CartController {
 	
 	@Autowired
 	ItemRepository itemRepository;
+	
+	@Autowired
+	ItemImagesRepository itemImagesRepository;
 	
 	@Autowired
 	MakeTimesaleList makeTimesaleList;
@@ -45,6 +51,15 @@ public class CartController {
 		if(itemId != null) {
 			cart.updateItems(itemId, quantity);
 		}
+		Map<Integer, List<ItemImage>> imageMap = new HashMap<>();
+		List <Item> list = cart.getItemList();
+		for(int i = 0; i < list.size(); i++) {
+			Item item = list.get(i);
+			Integer id = item.getId();
+			List<ItemImage> images = itemImagesRepository.findByItemId(id);
+			imageMap.put(item.getId(), images);
+		}
+        model.addAttribute("imageMap", imageMap);
 		//cart.htmlの出力
 		return "cart";
 	}
