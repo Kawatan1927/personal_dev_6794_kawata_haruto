@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,12 +18,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.entity.Coupon;
 import com.example.demo.entity.Customer;
 import com.example.demo.entity.Item;
+import com.example.demo.entity.ItemImage;
 import com.example.demo.entity.Order;
 import com.example.demo.entity.OrderDetail;
 import com.example.demo.model.Account;
 import com.example.demo.model.Cart;
 import com.example.demo.repository.CouponRepository;
 import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.ItemImagesRepository;
 import com.example.demo.repository.OrderDetailRepository;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.service.CouponService;
@@ -34,6 +37,9 @@ public class OrderController {
 
 	@Autowired
 	Cart cart;
+	
+	@Autowired
+	ItemImagesRepository itemImagesRepository;
 
 	@Autowired
 	CustomerRepository customerRepository;
@@ -74,9 +80,18 @@ public class OrderController {
 		//セール情報の取得
 		List<Integer> timesaleItemList = makeTimesaleList.generate();
 		Map<Integer, Double> timesaleMap =  makeTimesaleMapService.generate();
+		Map<Integer, List<ItemImage>> imageMap = new HashMap<>();
+		List <Item> list = cart.getItemList();
+		for(int i = 0; i < list.size(); i++) {
+			Item item = list.get(i);
+			Integer id = item.getId();
+			List<ItemImage> images = itemImagesRepository.findByItemId(id);
+			imageMap.put(item.getId(), images);
+		}
+        model.addAttribute("imageMap", imageMap);
 		model.addAttribute("saleItems", timesaleItemList);
 		model.addAttribute("salemaps", timesaleMap);
-		return "customerForm";
+		return "orderConfirm";
 	}
 
 	//注文する
