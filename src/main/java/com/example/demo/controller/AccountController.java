@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -199,8 +200,16 @@ public class AccountController {
 	public String orderHistory(Model model) {
 		List<Order> orderList = orderRepository.findAll();
 		model.addAttribute("orders", orderList);
-		List<VOrderDetail> orderDetailList = vOrderDetailRepository.findBycustomerId(account.getUserId());
-		model.addAttribute("orderDetails", orderDetailList);
+		Map<Integer, List<VOrderDetail>> orderDetailMap = new HashMap<>();
+		for(int i = 0; i < orderList.size(); i++) {
+			Order order = orderList.get(i);
+			Integer id = order.getId();
+			List<VOrderDetail> orderDetailList = vOrderDetailRepository.findByOrderIdAndCustomerId(id, account.getUserId());
+			orderDetailMap.put(id, orderDetailList);
+		}
+		String name =orderDetailMap.get(1).get(0).getName();
+		System.out.println(name);
+		model.addAttribute("orderDetails", orderDetailMap);
 		return "orderHistory";
 	}
 
