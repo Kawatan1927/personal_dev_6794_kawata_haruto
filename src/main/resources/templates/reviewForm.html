@@ -1,35 +1,48 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>購入した商品をレビュー</title>
-<link rel="stylesheet" type="text/css" href="/css/style.css">
+    <meta charset="UTF-8">
+    <title>購入した商品をレビュー</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
-<body>
-	<header th:replace="header"></header>
-	<hr>
-	<h1>購入した商品をレビュー</h1>
-	
-	<form th:each="od:${orderDetails}" th:action="@{/order-history/{id}/addreview(id=${od.itemId})}" method="post">
-		<ul th:if="${errorList}">
-		<li th:each="error:${errorList}" th:text="${error}" style="color: red;"></li>
-	    </ul>
-	    	<p><img th:each="ii:${itemImages}" th:src="${ii.image}"></p>
-	    	<h3 th:each="od:${orderDetails}" th:text="${od.name}"></h3>
-	    	<p>評価</p>
-			<p><input type="number" min="0" max="5" name="reviewScore" th:value= "${review} != null ? ${review.reviewScore} : null"></p>
-			<p>レビュータイトル</p>
-			<p><input type="text" name="reviewTitle" th:value= "${review} != null ? ${review.reviewTitle} : null"  placeholder="最も伝えたいポイントは何ですか？"></p>
-			<p>写真または動画を追加する</p>
-			テキストのみよりも、画像と動画の方が購入者に役立ちます。<br>
-			<p><input type="file"  name="reviewImage" accept="image/png, image/jpeg" /></p>
-			<p>レビュー詳細</p>
-			<p><textarea name="reviewDetail" th:value= "${review} != null ? ${review.reviewDetail} : null"  placeholder="気に入ったこと/気に入らなかったことは何ですか？この製品をどのように使いましたか？"></textarea></p>
-			<button>投稿</button>
-		</form>
-	</main>
-	<hr>
-	<footer th:replace="footer"></footer>
-
+<body class="bg-light">
+    <header th:replace="header"></header>
+    <div style="margin-top: 80px;">
+    <main class="container py-4">
+        <h1 class="mb-3">購入した商品をレビュー</h1>
+        <form th:each="od:${orderDetails}" th:action="@{/order-history/{id}/addreview(id=${od.orderId})}" method="post">
+            <ul class="list-unstyled" th:if="${errorList}">
+                <li class="text-danger" th:each="error:${errorList}" th:text="${error}"></li>
+            </ul>
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="img-fluid" th:each="ii:${itemImages}" th:src="${ii.image}">
+                </div>
+                <div class="col-md-8">
+                    <h3  th:text="${od.name}"></h3>
+                    <div class="mb-3">
+                        <label class="form-label">評価</label>
+                        <input type="number" class="form-control" min="0" max="5" name="reviewScore" th:value="${review} != null ? ${review.reviewScore} : null">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">レビュータイトル</label>
+                        <input type="text" class="form-control" name="reviewTitle" th:value="${review} != null ? ${review.reviewTitle} : null" placeholder="最も伝えたいポイントは何ですか？">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">写真または動画を追加する</label>
+                        <input type="file" class="form-control" name="reviewImage" accept="image/png, image/jpeg">
+                        <div class="form-text">テキストのみよりも、画像と動画の方が購入者に役立ちます。</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">レビュー詳細</label>
+                        <textarea class="form-control" name="reviewDetail" th:value="${review} != null ? ${review.reviewDetail} : null" placeholder="気に入ったこと/気に入らなかったことは何ですか？この製品をどのように使いましたか？"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">投稿</button>
+                </div>
+            </div>
+        </form>
+    </main>
+    <footer th:replace="footer"></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

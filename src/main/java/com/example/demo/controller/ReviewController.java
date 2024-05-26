@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.ItemImage;
-import com.example.demo.entity.Order;
 import com.example.demo.entity.Review;
 import com.example.demo.entity.VOrderDetail;
 import com.example.demo.model.Account;
@@ -24,63 +23,61 @@ import com.example.demo.repository.VOrderDetailRepository;
 
 @Controller
 public class ReviewController {
-	
+
 	@Autowired
 	ReviewRepository reviewRepository;
-	
+
 	@Autowired
 	OrderRepository orderRepository;
-	
+
 	@Autowired
 	VOrderDetailRepository vOrderDetailRepository;
-	
+
 	@Autowired
 	ItemImagesRepository itemImagesRepository;
-	
+
 	@Autowired
 	Account account;
+
 	//カスタマーレビュー確認画面の表示
 	@GetMapping("/items/{id}/review")
-	public String index(
-			@PathVariable("id") Integer id,
-			Model model) {
+	public String index(@PathVariable("id") Integer id, Model model) {
 		List<Review> reviewList = reviewRepository.findByItemId(id);
-		
-		model.addAttribute("reviews",reviewList);
-		
-		return  "review";
-		
+
+		model.addAttribute("reviews", reviewList);
+
+		return "review";
+
 	}
-	
+
 	//カスタマーレビュー投稿画面の表示
-	@GetMapping("/order-history/{itemId}/addreview")
-	public String create(
-			@PathVariable("itemId") Integer id,
-			Model model) {
-		model.addAttribute("itemId",id);
+	@GetMapping("/order-history/{orderId}/addreview")
+	public String create(@PathVariable("orderId") Integer id, Model model) {
+		// オーダーIDからオーダー詳細を取得
 		List<VOrderDetail> orderDetailList = vOrderDetailRepository.findByOrderIdAndCustomerId(id, account.getUserId());
-		model.addAttribute("orderDetails",orderDetailList);	
-		List<ItemImage> itemImageList = itemImagesRepository.findByItemId(id);
+		model.addAttribute("orderDetails", orderDetailList);
+		// アイテムIDを取得
+		Integer itemId = orderDetailList.get(0).getItemId();
+		model.addAttribute("itemId", itemId);
+		List<ItemImage> itemImageList = itemImagesRepository.findByItemId(itemId);
 		model.addAttribute("itemImages", itemImageList);
-		return  "reviewForm";
+		return "reviewForm";
 	}
-	
+
 	//レビュー投稿処理
-	@PostMapping("/order-history/{itemId}/addreview")
-	public String save(
-			@PathVariable("itemId") Integer id,
-			@RequestParam(name = "reviewTitle" , defaultValue = "") String reviewTitle,
-			@RequestParam(name = "reviewImage" , defaultValue = "") String reviewImage,
-			@RequestParam(name = "reviewScore" , defaultValue = "") Integer reviewScore,
-			@RequestParam(name = "reviewDetail" , defaultValue = "") String reviewDetail,
-			Model model) {
+	@PostMapping("/order-history/{orderId}/addreview")
+	public String save(@PathVariable("orderId") Integer orderId,
+			@RequestParam(name = "reviewTitle", defaultValue = "") String reviewTitle,
+			@RequestParam(name = "reviewImage", defaultValue = "") String reviewImage,
+			@RequestParam(name = "reviewScore", defaultValue = "") Integer reviewScore,
+			@RequestParam(name = "reviewDetail", defaultValue = "") String reviewDetail, Model model) {
 		model.addAttribute("reviewTitle", reviewTitle);
 		model.addAttribute("reviewScore", reviewScore);
 		model.addAttribute("reviewDetail", reviewDetail);
-		
+
 		// エラーチェック
 		List<String> errorList = new ArrayList<String>();
-		
+
 		if (reviewTitle.length() == 0) {
 			errorList.add("レビュータイトルは必須です");
 		}
@@ -94,18 +91,19 @@ public class ReviewController {
 		if (errorList.size() > 0) {
 			model.addAttribute("errorList", errorList);
 			Review review = new Review(reviewTitle, reviewScore, reviewImage, reviewDetail);
-			model.addAttribute("review",review);
+			model.addAttribute("review", review);
 			return "reviewForm";
-		}else {
-			Integer itemId =id;
-			Order order = orderRepository.findByCustomerId(itemId).get(0);
-			LocalDate reviewedOn = order.getOrderedOn();
-			Review review = new Review(itemId, account.getUserId(), reviewedOn, reviewTitle, reviewScore, reviewImage, reviewDetail);
+		} else {
+			// オーダーIDからアイテムIDを取得
+			List<VOrderDetail> orderDetailList = vOrderDetailRepository.findByOrderIdAndCustomerId(orderId,
+					account.getUserId());
+			Integer itemId = orderDetailList.get(0).getItemId();
+			LocalDate reviewedOn = LocalDate.now();
+			Review review = new Review(itemId, account.getUserId(), reviewedOn, reviewTitle, reviewScore, reviewImage,
+					reviewDetail);
 			reviewRepository.save(review);
 			return "accountDetail";
 		}
-}
-	
-	
+	}
 
 }
