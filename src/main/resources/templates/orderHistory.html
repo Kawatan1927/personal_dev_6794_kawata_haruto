@@ -11,17 +11,19 @@
     <div style="margin-top: 80px;">
         <h1>注文履歴</h1>
         <div class="accordion" id="orderAccordion">
-            <div th:each="o:${orders}" class="accordion-item">
-                <h2 class="accordion-header" id="heading-${o.id}">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${o.id}" aria-expanded="true" aria-controls="collapse-${o.id}">
-                        注文番号: <span th:text="${o.id}"></span>
+            <div  th:each="odmap:${orderDetails}" class="accordion-item">
+                <h2 class="accordion-header" th:id="'heading-' + ${odmap.value.get(0).orderId}">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" th:data-bs-target="'#collapse-' + ${odmap.value.get(0).orderId}" aria-expanded="true" th:aria-controls="'collapse-' + ${odmap.value.get(0).orderId}">
+                        注文番号: <span th:text="${odmap.value.get(0).orderId}"></span>
                     </button>
                 </h2>
-                <div id="collapse-${o.id}" class="accordion-collapse collapse" aria-labelledby="heading-${o.id}" data-bs-parent="#orderAccordion">
-                    <div class="accordion-body" id="heading-${o.id}">
-						<span th:if="o.id == ${orderDetails.get(0).id}">
+                <div th:id="'collapse-' + ${odmap.value.get(0).orderId}" class="accordion-collapse collapse" th:aria-labelledby="'heading-' + ${odmap.value.get(0).orderId}" data-bs-parent="#orderAccordion">
+                    <div class="accordion-body" th:id="'heading-' + ${odmap.value.get(0).orderId}" >
+						
 						<strong>
-                        <table>
+						 <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover">
+			 <thead>
 			<tr>
 				<th>注文日</th>
 				<th>商品名</th>
@@ -29,25 +31,28 @@
 				<th>個数</th>
 				<th>小計</th>
 			</tr>
-			
-			<tr th:each="odmap:${orderDetails}">
+			</thead>
+			<tbody>
+			<tr >
 				<td th:text="${odmap.value.get(0).orderedOn}"></td>
 				<td th:text="${odmap.value.get(0).name}"></td>
 				<td th:text="'\\' + ${#numbers.formatInteger(odmap.value.get(0).price, 3, 'COMMA')}"></td>
 				<td th:text="${odmap.value.get(0).quantity}"></td>
 				<td th:text="'\\' + ${#numbers.formatInteger((odmap.value.get(0).price * odmap.value.get(0).quantity), 3, 'COMMA')}"></td>
 			</tr>
-			<tr th:each="order:${orders}">
-				<td></td>
-				<td></td>
-				<td></td>
+			</tbody>
+			 <tfoot>
+			<tr>
+				<td colspan="3"></td>
 				<th>合計</th>
-				<td  th:text="'\\' + ${#numbers.formatInteger(order.totalPrice, 3, 'COMMA')}"></td>
+				<td  th:text="'\\' + ${#numbers.formatInteger(odmap.value.get(0).totalPrice, 3, 'COMMA')}"></td>
 			</tr>
+			</tfoot>
 	</table>
+						 </div>
                         </strong>
                     </div>
-                    </span>
+                    
                 </div>
             </div>
         </div>
