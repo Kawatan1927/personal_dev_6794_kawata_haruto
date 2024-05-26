@@ -57,33 +57,31 @@ public class ItemController {
 	public String home() {
 		return "mainMenu";
 	}
-	
+
 	//利用規約表示
 	@GetMapping("/terms")
 	public String terms() {
 		return "terms";
 	}
-	
+
 	//プライバシーポリシー表示
 	@GetMapping("/privacy")
 	public String privacy() {
 		return "privacy-policy";
 	}
-	
+
 	//ニュース1ー表示
 	@GetMapping("/news")
 	public String news() {
 		return "news";
 	}
-	
+
 	//ニュース2ー表示
 	@GetMapping("/news2")
 	public String news2() {
 		return "news2";
 	}
-	
-	
-	
+
 	//商品一覧表示
 	@GetMapping("/items")
 	public String index(@RequestParam(value = "categoryId", defaultValue = "") Integer categoryId,
@@ -114,14 +112,14 @@ public class ItemController {
 			//itemsテーブルをカテゴリーIDを指定して一覧を取得
 			itemList = itemRepository.findByCategoryId(categoryId);
 		}
-		
+
 		// 各商品に対応する画像リストを取得
-        if (itemList != null) {
-            for (Item item : itemList) {
-                List<ItemImage> images = itemImagesRepository.findByItemId(item.getId());
-                imageMap.put(item.getId(), images);
-            }
-        }
+		if (itemList != null) {
+			for (Item item : itemList) {
+				List<ItemImage> images = itemImagesRepository.findByItemId(item.getId());
+				imageMap.put(item.getId(), images);
+			}
+		}
 
 		// 商品の数を取得
 		int itemCount = itemList.size();
@@ -175,12 +173,10 @@ public class ItemController {
 
 		Item item = itemRepository.findById(id).get();
 		model.addAttribute("item", item);
-		ItemImage itemimage1 = itemImagesRepository.findByItemId(id).get(0);
-		model.addAttribute("itemimage1", itemimage1);
-		ItemImage itemimage2 = itemImagesRepository.findByItemId(id).get(1);
-		model.addAttribute("itemimage2", itemimage2);
-		ItemImage itemimage3 = itemImagesRepository.findByItemId(id).get(2);
-		model.addAttribute("itemimage3", itemimage3);
+		Map<Integer, List<ItemImage>> imageMap = new HashMap<>();
+		List<ItemImage> images = itemImagesRepository.findByItemId(id);
+		imageMap.put(item.getId(), images);
+		model.addAttribute("imageMap", imageMap);
 		return "itemDetail";
 	}
 
