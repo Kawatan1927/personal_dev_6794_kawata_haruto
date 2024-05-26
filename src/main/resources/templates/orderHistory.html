@@ -39,6 +39,11 @@
 				<td th:text="'\\' + ${#numbers.formatInteger(odmap.value.get(0).price, 3, 'COMMA')}"></td>
 				<td th:text="${odmap.value.get(0).quantity}"></td>
 				<td th:text="'\\' + ${#numbers.formatInteger((odmap.value.get(0).price * odmap.value.get(0).quantity), 3, 'COMMA')}"></td>
+				<td>
+			<form th:action="@{/order-history/{id}/addreview(id=${odmap.value.get(0).orderId})}" method="get">
+			<button class="btn btn-primary">商品レビューを投稿</button>
+			</form>
+				</td>
 			</tr>
 			</tbody>
 			 <tfoot>
@@ -48,6 +53,7 @@
 				<td  th:text="'\\' + ${#numbers.formatInteger(odmap.value.get(0).totalPrice, 3, 'COMMA')}"></td>
 			</tr>
 			</tfoot>
+		</form>
 	</table>
 						 </div>
                         </strong>
