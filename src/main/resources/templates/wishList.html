@@ -9,13 +9,15 @@
 <body>
 	<header th:replace="header"></header>
 	<hr>
+	<div th:if="${message} != null" >
+		<h3 style="margin: 250px 0; text-align: center;" th:text="${message}"></h3>
+	</div>
+	<div th:unless="${message} != null" >
 	<div th:if="${wishListList.isEmpty()}" class="text-center">
-            <h3 style="margin: 250px 0;">欲しいものリストに登録されている商品はありません。</h3>
+            <h3 style="margin: 250px 0; text-align: center;">欲しいものリストに登録されている商品はありません。</h3>
     </div>
    <div th:unless="${wishListList.isEmpty()}">
-	<th:block th:if="${message} != null" >
-		<p style="color: red;" th:text="${message}"></p>
-	</th:block>
+	
 	<table>
 			<tr>
 				<th>商品名</th>
@@ -25,9 +27,9 @@
 			<tr th:each="wishlist:${wishListList}">
 				<td th:text="${wishlist.name}"></td>
 				<th:block th:if="${#lists.contains(saleItems, wishlist.itemId)}" >
-				<td  th:text="'\\' + ${#numbers.formatInteger(wishlist.price * salemaps.get(wishlist.itemId), 3, 'COMMA')}"></td></th:block>
+				<td  th:text="'&yen;' + ${#numbers.formatInteger(wishlist.price * salemaps.get(wishlist.itemId), 3, 'COMMA')}"></td></th:block>
 				<th:block th:unless="${#lists.contains(saleItems, wishlist.itemId)}" >
-				<td  th:text="'\\' + ${#numbers.formatInteger(wishlist.price, 3, 'COMMA')}"></td></th:block>
+				<td  th:text="'&yen;' + ${#numbers.formatInteger(wishlist.price, 3, 'COMMA')}"></td></th:block>
 				<td>
 					<form action="/wishlist/delete" method="post">
 						<input type="hidden" name="itemId" th:value="${wishlist.itemId}">
@@ -35,6 +37,7 @@
 				</td>
 			</tr>
 	</table>
+   </div>
    </div>
 	<hr>
 	<footer th:replace="footer"></footer>

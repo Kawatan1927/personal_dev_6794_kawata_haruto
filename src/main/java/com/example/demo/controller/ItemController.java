@@ -188,10 +188,12 @@ public class ItemController {
 			wishListRepository.delete(wishlist);
 		} else {
 			model.addAttribute("message", "ほしいものリストにアイテムが存在しません。");
+			return "wishList";
 		}
 
 		Item item = itemRepository.findById(id).get();
 		model.addAttribute("item", item);
+		model.addAttribute("message", "欲しいものリストに登録されている商品はありません。");
 		return "wishList";
 
 	}
