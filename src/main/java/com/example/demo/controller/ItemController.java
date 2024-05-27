@@ -24,6 +24,7 @@ import com.example.demo.repository.TimeSaleRepository;
 import com.example.demo.repository.WishListRepository;
 import com.example.demo.service.MakeTimesaleList;
 import com.example.demo.service.MakeTimesaleMapService;
+import com.example.demo.service.ReviewService;
 
 @Controller
 public class ItemController {
@@ -51,6 +52,9 @@ public class ItemController {
 
 	@Autowired
 	MakeTimesaleMapService makeTimesaleMapService;
+	
+	@Autowired
+	ReviewService reviewService;
 
 	//ホームページ表示
 	@GetMapping("/home")
@@ -120,6 +124,13 @@ public class ItemController {
 				imageMap.put(item.getId(), images);
 			}
 		}
+		
+		// 各商品の評価平均を取得
+        Map<Integer, Double> averageScores = new HashMap<>();
+        for (Item item : itemList) {
+            double averageScore = reviewService.calculateAverageReviewScore(item.getId());
+            averageScores.put(item.getId(), averageScore);
+        }
 
 		// 商品の数を取得
 		int itemCount = itemList.size();

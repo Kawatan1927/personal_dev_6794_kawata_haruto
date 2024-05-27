@@ -123,6 +123,7 @@ public class ReviewController {
 	  @PostMapping("/upvote")
 	    public String upvote(
 	    		@RequestParam("reviewId") Integer reviewId, 
+	    		@RequestParam("itemId") Integer itemId,
 	    		RedirectAttributes redirectAttributes) {
 		  boolean success = reviewService.incrementUpvote(reviewId);
 	        if (success) {
@@ -130,19 +131,22 @@ public class ReviewController {
 	        } else {
 	            redirectAttributes.addFlashAttribute("error", "高評価の送信に失敗しました。");
 	        }
-	        return "redirect:/reviews";
+	        return "redirect:/items/" + itemId + "/review";
 	  }
 	  
 	  //レビュー低評価付与処理
 	  @PostMapping("/downvote")
-	    public String downvote(@RequestParam("reviewId") Integer reviewId, RedirectAttributes redirectAttributes) {
+	    public String downvote(
+	    		@RequestParam("reviewId") Integer reviewId,
+	    		@RequestParam("itemId") Integer itemId,
+	    		RedirectAttributes redirectAttributes) {
 	        boolean success = reviewService.incrementDownvote(reviewId);
 	        if (success) {
 	            redirectAttributes.addFlashAttribute("message", "低評価を送信しました！");
 	        } else {
 	            redirectAttributes.addFlashAttribute("error", "低評価の送信に失敗しました。");
 	        }
-	        return "redirect:/reviews";
+	        return "redirect:/items/" + itemId + "/review";
 	    }
 
 }
