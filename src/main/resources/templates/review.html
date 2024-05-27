@@ -23,7 +23,7 @@
                     <span th:each="star: ${#numbers.sequence(1, 5)}">
                         <i class="fa fa-star" th:classappend="${star <= averageScore} ? 'checked' : ''"></i>
                     </span>
-                    <span th:text="${averageScore}"></span> / 5
+                     <span th:text="${#numbers.formatDecimal(averageScore, 1, 2)}"></span> / 5
                 </div>
                 <hr>
             </div>

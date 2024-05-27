@@ -1,8 +1,12 @@
 package com.example.demo.controller;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,6 +60,10 @@ public class ReviewController {
 		model.addAttribute("item", item);
 		List<Review> reviewList = reviewRepository.findByItemId(id);
 		double averageScore = reviewService.calculateAverageReviewScore(id);
+		Map<Integer, Double> averageScores = new HashMap<>();
+		// 小数点第3位で四捨五入
+		BigDecimal roundedScore = new BigDecimal(averageScore).setScale(2, RoundingMode.HALF_UP);
+	    averageScores.put(item.getId(), roundedScore.doubleValue());
 		model.addAttribute("reviews", reviewList);
 		model.addAttribute("averageScore", averageScore);
 
