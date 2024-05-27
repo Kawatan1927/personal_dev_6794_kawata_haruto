@@ -32,6 +32,7 @@ public class CheckLoginAspect {
 	//AccountControllerクラス以外のControllerクラスで未ログインの場合はログインページにリダイレクト
 	@Around("execution(* com.example.demo.controller.ItemController.*(..)) ||"
 			+ "execution(* com.example.demo.controller.CartController.*(..)) ||"
+			+ "execution(* com.example.demo.controller.ReviewController.*(..)) ||"
 			+ "execution(* com.example.demo.controller.OrderController.*(..))")
 	public Object checkLogin(ProceedingJoinPoint jp) throws Throwable{
 		if(account == null || account.getUserName() == null || account.getUserName().length() == 0) {
