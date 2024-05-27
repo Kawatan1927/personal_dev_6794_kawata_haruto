@@ -4,12 +4,33 @@
 <meta charset="UTF-8">
 <title>カスタマーレビュー</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<style>
+    .fa-star.checked {
+        color: gold;
+    }
+</style>
 </head>
 <body>
     <header th:replace="header"></header>
     <hr>
+    <div style="margin-top: 80px;">
     <div class="container mt-5">
+		<div class="row">
+            <div class="col-md-12">
+                <h2 th:text="${item.name}"></h2>
+                <div>
+                    <span th:each="star: ${#numbers.sequence(1, 5)}">
+                        <i class="fa fa-star" th:classappend="${star <= averageScore} ? 'checked' : ''"></i>
+                    </span>
+                    <span th:text="${averageScore}"></span> / 5
+                </div>
+                <hr>
+            </div>
+        </div>
         <main>
+			<div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
             <table class="table table-striped table-hover">
                 <thead class="table-dark">
                     <tr>
@@ -27,8 +48,22 @@
                         <td th:text="${review.reviewTitle}"></td>
                         <td th:text="${review.reviewScore}"></td>
                         <td th:text="${review.reviewDetail}"></td>
-                        <td th:text="${review.good}"></td>
-                        <td th:text="${review.bad}"></td>
+                        <td>
+							<form action="/upvote" method="post" th:action="@{/upvote}" th:object="${review}">
+								<input type="hidden" name="reviewId" th:value="${review.id}">
+								<button>
+									 <i class="bi bi-hand-thumbs-up"></i> 高評価 <span th:text="${review.good}"></span>
+								</button>
+							</form>
+						</td>
+                        <td>
+							<form action="/downvote" method="post" th:action="@{/downvote}" th:object="${review}">
+								<input type="hidden" name="reviewId" th:value="${review.id}">
+								<button  class="btn btn-danger" type="submit">
+									  <i class="bi bi-hand-thumbs-down"></i> 低評価 <span th:text="${review.bad}"></span>
+								</button>
+							</form>
+						</td>
                     </tr>
                 </tbody>
             </table>

@@ -11,15 +11,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.entity.Item;
 import com.example.demo.entity.ItemImage;
 import com.example.demo.entity.Review;
 import com.example.demo.entity.VOrderDetail;
 import com.example.demo.model.Account;
 import com.example.demo.repository.ItemImagesRepository;
+import com.example.demo.repository.ItemRepository;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.repository.ReviewRepository;
 import com.example.demo.repository.VOrderDetailRepository;
+import com.example.demo.service.ReviewService;
 
 @Controller
 public class ReviewController {
@@ -35,16 +39,25 @@ public class ReviewController {
 
 	@Autowired
 	ItemImagesRepository itemImagesRepository;
+	
+	@Autowired
+	ItemRepository itemRepository;
 
 	@Autowired
 	Account account;
+	
+	@Autowired
+	ReviewService reviewService;
 
 	//カスタマーレビュー確認画面の表示
 	@GetMapping("/items/{id}/review")
 	public String index(@PathVariable("id") Integer id, Model model) {
+		Item item = itemRepository.findById(id).get();
+		model.addAttribute("item", item);
 		List<Review> reviewList = reviewRepository.findByItemId(id);
-
+		double averageScore = reviewService.calculateAverageReviewScore(id);
 		model.addAttribute("reviews", reviewList);
+		model.addAttribute("averageScore", averageScore);
 
 		return "review";
 
@@ -105,5 +118,31 @@ public class ReviewController {
 			return "accountDetail";
 		}
 	}
+	
+	//レビュー高評価付与処理
+	  @PostMapping("/upvote")
+	    public String upvote(
+	    		@RequestParam("reviewId") Integer reviewId, 
+	    		RedirectAttributes redirectAttributes) {
+		  boolean success = reviewService.incrementUpvote(reviewId);
+	        if (success) {
+	            redirectAttributes.addFlashAttribute("message", "高評価を送信しました！");
+	        } else {
+	            redirectAttributes.addFlashAttribute("error", "高評価の送信に失敗しました。");
+	        }
+	        return "redirect:/reviews";
+	  }
+	  
+	  //レビュー低評価付与処理
+	  @PostMapping("/downvote")
+	    public String downvote(@RequestParam("reviewId") Integer reviewId, RedirectAttributes redirectAttributes) {
+	        boolean success = reviewService.incrementDownvote(reviewId);
+	        if (success) {
+	            redirectAttributes.addFlashAttribute("message", "低評価を送信しました！");
+	        } else {
+	            redirectAttributes.addFlashAttribute("error", "低評価の送信に失敗しました。");
+	        }
+	        return "redirect:/reviews";
+	    }
 
 }
