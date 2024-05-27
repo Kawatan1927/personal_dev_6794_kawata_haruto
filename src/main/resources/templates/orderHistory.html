@@ -9,6 +9,10 @@
     <header th:replace="header"></header>
     <hr>
     <div style="margin-top: 80px;">
+		<div th:if="${orderDetails.isEmpty()}" class="text-center">
+            <h3 style="margin: 250px 0; text-align: center;">注文履歴はありません。</h3>
+    	</div>
+   		<div th:unless="${orderDetails.isEmpty()}">
         <h1>注文履歴</h1>
         <div class="accordion" id="orderAccordion">
             <div  th:each="odmap:${orderDetails}" class="accordion-item">
@@ -62,6 +66,7 @@
                 </div>
             </div>
         </div>
+   		</div>
         <hr>
     </div>
     <footer th:replace="footer"></footer>

@@ -207,8 +207,6 @@ public class AccountController {
 			List<VOrderDetail> orderDetailList = vOrderDetailRepository.findByOrderIdAndCustomerId(id, account.getUserId());
 			orderDetailMap.put(id, orderDetailList);
 		}
-		String name =orderDetailMap.get(1).get(0).getName();
-		System.out.println(name);
 		model.addAttribute("orderDetails", orderDetailMap);
 		return "orderHistory";
 	}
