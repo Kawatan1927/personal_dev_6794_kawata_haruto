@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -129,7 +131,8 @@ public class ItemController {
         Map<Integer, Double> averageScores = new HashMap<>();
         for (Item item : itemList) {
             double averageScore = reviewService.calculateAverageReviewScore(item.getId());
-            averageScores.put(item.getId(), averageScore);
+            BigDecimal roundedScore = new BigDecimal(averageScore).setScale(2, RoundingMode.HALF_UP);
+            averageScores.put(item.getId(), roundedScore.doubleValue());
         }
 
 		// 商品の数を取得
@@ -140,6 +143,7 @@ public class ItemController {
 		model.addAttribute("itemCount", itemCount);
 		model.addAttribute("saleItems", timesaleItemList);
 		model.addAttribute("salemaps", timesaleMap);
+		model.addAttribute("averageScores", averageScores);
 
 		return "items";
 	}
