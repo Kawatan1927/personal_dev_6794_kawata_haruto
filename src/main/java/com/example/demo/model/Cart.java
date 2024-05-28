@@ -70,15 +70,6 @@ public class Cart {
 
 	}
 
-	//獲得予定ポイント取得用ゲッター
-	public int getTotalPoint() {
-		int total = 0;
-		for (Item item : itemList) {
-			total += item.getPrice() * 0.1;
-		}
-		return total;
-	}
-
 	//カート追加
 	public void add(Item newItem) {
 		account.setUsePoint(0);

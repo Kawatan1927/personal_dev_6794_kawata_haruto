@@ -102,7 +102,6 @@ public class OrderController {
 			@RequestParam("address") String address, 
 			@RequestParam("tel") String tel,
 			@RequestParam("email") String email, 
-			@RequestParam("point") Integer point,
 			@RequestParam(name ="usePoint", defaultValue = "0") Integer usePoint,
 			@RequestParam(name = "couponCode", required = false) String couponCode,
 			Model model,
@@ -112,9 +111,10 @@ public class OrderController {
 		
 		//1.ポイント獲得情報をDBに格納する
 		Customer customer = customerRepository.findById(id).get();
-		customer.setPoint(customer.getPoint() + point - account.getUsePoint());
-		account.setGetPoint(point);
-		account.setUserPoint(account.getUserPoint() + point - account.getUsePoint());
+		int TotalPoint = (int) (cart.getTotalPrice() * 0.1); 
+		customer.setPoint(customer.getPoint() + TotalPoint - account.getUsePoint());
+		account.setGetPoint(TotalPoint);
+		account.setUserPoint(account.getUserPoint() + TotalPoint - account.getUsePoint());
 		customerRepository.save(customer);
 		//2.注文情報をDBに格納する
 		Order order = new Order(customer.getId(), LocalDate.now(), cart.getTotalPrice());

@@ -79,7 +79,7 @@ INSERT INTO customers(name, address, tel, email, password) VALUES('山本二郎'
 INSERT INTO customers(name, address, tel, email, password) VALUES('中村三郎', '愛知県', '090-9999-0000', 'nakamura@eee.com', 'himitsu4');
 INSERT INTO customers(name, address, tel, email, password) VALUES('小林四郎', '福岡県', '080-1111-3333', 'kobayashi@fff.com', 'himitsu5');
 INSERT INTO customers(name, address, tel, email, password) VALUES('加藤五郎', '広島県', '070-4444-5555', 'kato@ggg.com', 'himitsu6');
-INSERT INTO customers(name, address, tel, email, password) VALUES('伊藤六郎', '埼玉県', '090-6666-7777', 'ito@hhh.com', 'himitsu7');
+INSERT INTO customers(name, address, tel, email, password) VALUES('伊藤六郎', '埼玉県', '090-6666-7777', 'liulangyiteng195@gmail.com', 'himitsu7');
 
 --タイムセールテーブルデータ
 INSERT INTO timesale (item_id, start_time, end_time, discount_price_ratio) VALUES(1, '2024-05-22 10:00:00', '2024-05-30 12:00:00', 0.90);
@@ -97,6 +97,7 @@ INSERT INTO timesale (item_id, start_time, end_time, discount_price_ratio) VALUE
 
 --クーポンデータ
 INSERT INTO coupon (customer_id, code, discount, is_used) VALUES(1, 0000, 0.1, false);
+INSERT INTO coupon (customer_id, code, discount, is_used) VALUES(10, 1020, 0.1, false);
  
  --カスタマーレビューデータ
 INSERT INTO reviews(item_id, customer_id, reviewed_on, review_title, review_score, review_image, review_detail, good, bad) VALUES(1, 1, '2024-05-27', ' 色がかわいい', 5, '0', 'とてもかわいい！', 0, 0);
