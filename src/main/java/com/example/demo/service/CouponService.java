@@ -20,7 +20,7 @@ public class CouponService {
 	private Random random = new Random();
 
 	public Coupon generateCoupon() {
-		if (random.nextInt(10) == 0) { // 10%の確率
+		if (true) { // 100%の確率
 			Coupon coupon = new Coupon();
 			coupon.setCustomerId(account.getUserId());
 			coupon.setCode(UUID.randomUUID().toString());
