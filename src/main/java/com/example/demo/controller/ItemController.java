@@ -182,6 +182,7 @@ public class ItemController {
 		if (!wishListRepository.existsByItemIdAndCustomerId(id, userId)) {
 			WishList wishlist = new WishList(id, userId);
 			wishListRepository.save(wishlist);
+			model.addAttribute("message", "欲しいものリストに登録しました");
 		} else {
 			model.addAttribute("message", "このアイテムは既に欲しいものリストに追加されています。");
 		}
