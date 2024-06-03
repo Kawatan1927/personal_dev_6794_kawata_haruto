@@ -138,3 +138,12 @@ CREATE TABLE coupon
 	discount NUMERIC(10, 2),
     is_used BOOLEAN NOT NULL DEFAULT FALSE
 );
+
+--パスワードリセットトークンテーブル
+CREATE TABLE password_reset_token (
+    id SERIAL PRIMARY KEY,
+    token VARCHAR(255) NOT NULL,
+    user_id INTEGER NOT NULL,
+    expiry_date TIMESTAMP NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES customers(id)
+);
