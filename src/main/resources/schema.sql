@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS reviews CASCADE;
 DROP TABLE IF EXISTS wishlists CASCADE;
 DROP TABLE IF EXISTS timesale CASCADE;
 DROP TABLE IF EXISTS coupon CASCADE;
+DROP TABLE IF EXISTS password_reset_token CASCADE;
 
 -- カテゴリーテーブル
 CREATE TABLE categories
@@ -143,7 +144,7 @@ CREATE TABLE coupon
 CREATE TABLE password_reset_token (
     id SERIAL PRIMARY KEY,
     token VARCHAR(255) NOT NULL,
-    user_id INTEGER NOT NULL,
+    customer_id INTEGER NOT NULL,
     expiry_date TIMESTAMP NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES customers(id)
+    FOREIGN KEY (customer_id) REFERENCES customers(id)
 );

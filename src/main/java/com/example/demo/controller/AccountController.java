@@ -29,6 +29,7 @@ import com.example.demo.repository.VWishListRepository;
 import com.example.demo.service.EmailService;
 import com.example.demo.service.MakeTimesaleList;
 import com.example.demo.service.MakeTimesaleMapService;
+import com.example.demo.service.TokenService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -64,6 +65,9 @@ public class AccountController {
 	
 	@Autowired
     EmailService emailService;
+	
+	@Autowired
+    private TokenService tokenService;
 
 	//ログイン画面を表示
 	@GetMapping({ "/", "/login", "/logout" })
@@ -294,7 +298,9 @@ public class AccountController {
     public String forgotPassword(@RequestParam String email, RedirectAttributes redirectAttributes) {
 		List<Customer> customer = customerRepository.findByEmail(email);
 		 if (customer.size() != 0) {
-		emailService.sendEmail(email,"パスワードの再設定について", "パスワードを変更するためのリンクを送信しました。\n下記リンクより変更を行うことができます。\n http://localhost:8080/setNewPassword");
+		String token = tokenService.createToken(customer.get(0));
+		String resetUrl = "http://localhost:8080/setNewPassword?token=" + token;
+		emailService.sendEmail(email,"パスワードの再設定について", "パスワードを変更するためのリンクを送信しました。\n下記リンクより変更を行うことができます。\n" + resetUrl);
 		redirectAttributes.addFlashAttribute("message", "パスワードの再設定について数分以内にメールでご連絡いたします。");
         return "redirect:/login";
 		 }else {
@@ -304,15 +310,23 @@ public class AccountController {
 	}
 	
 	//パスワード再設定ページの表示
-		@GetMapping("/setNewPassword")
-	    public String showSetNewPasswordPage(@ModelAttribute("message") String message) {
+		@GetMapping
+	    public String showSetNewPasswordPage(
+	    		@RequestParam("token") String token,
+	    		@ModelAttribute("message") String message,
+	    		Model model) {
+		  if (!tokenService.isValid(token)) {
+	            model.addAttribute("message", "無効なトークンです");
+	            return "reset-password";
+	        }
+		    model.addAttribute("token", token);
 	        return "setNewPassword";
 	    }
 		
 	//パスワード再設定
-		@PostMapping("/setNewPassword")
+		@PostMapping
 		public String setNewPassword(
-				@RequestParam String email, 
+				@RequestParam("token") String token,
 				@RequestParam String password, 
 				RedirectAttributes redirectAttributes) {
 	        Customer customer = customerRepository.findByEmail(email).get(0);
