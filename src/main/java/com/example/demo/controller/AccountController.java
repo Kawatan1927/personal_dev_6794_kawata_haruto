@@ -310,7 +310,7 @@ public class AccountController {
 	}
 	
 	//パスワード再設定ページの表示
-		@GetMapping
+		@GetMapping("/setNewPassword")
 	    public String showSetNewPasswordPage(
 	    		@RequestParam("token") String token,
 	    		@ModelAttribute("message") String message,
@@ -324,12 +324,12 @@ public class AccountController {
 	    }
 		
 	//パスワード再設定
-		@PostMapping
+		@PostMapping("/setNewPassword")
 		public String setNewPassword(
 				@RequestParam("token") String token,
 				@RequestParam String password, 
 				RedirectAttributes redirectAttributes) {
-	        Customer customer = customerRepository.findByEmail(email).get(0);
+	        Customer customer = tokenService.getUserByToken(token);
 	        if (customer != null) {
 	            customer.setPassword(password); // パスワードを直接設定する
 	            customerRepository.save(customer);
